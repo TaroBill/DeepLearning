@@ -191,14 +191,24 @@
           <AnalysisFileManager>
             <AnalysisFiles>
               <AnalysisFile>
-                <RelativePath>Form1.cs</RelativePath>
+                <RelativePath>DisplayForm.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Model</AnalysisFileType>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
-                <RelativePath>Form1.Designer.cs</RelativePath>
+                <RelativePath>DisplayForm.Designer.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Designer</AnalysisFileType>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>NeuralLayer.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>NeuralNode.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Program.cs</RelativePath>
@@ -219,6 +229,16 @@
                 <RelativePath>Properties\Settings.Designer.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Designer</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>NeuralNodeTests.cs</RelativePath>
+                <ProjectName>NeuralNetworkTests</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Properties\AssemblyInfo.cs</RelativePath>
+                <ProjectName>NeuralNetworkTests</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
             </AnalysisFiles>
           </AnalysisFileManager>
