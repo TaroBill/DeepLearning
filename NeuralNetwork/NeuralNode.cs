@@ -11,16 +11,18 @@ namespace NeuralNetwork
         private double _output;
         private List<double> _outputWeight;
         private readonly Random _random;
+        private double _totalAkaWeight;
 
         public NeuralNode()
         {
             _output = 0;
+            _totalAkaWeight = 0;
             _outputWeight = new List<double>();
             _random = new Random();
         }
 
         //設定輸出有多少Node
-        public void CreateNewWeight(int amount)
+        public void SetWeightsAmount(int amount)
         {
             _outputWeight.Clear();
             for (int index = 0; index < amount; index++)
@@ -42,6 +44,33 @@ namespace NeuralNetwork
             net += bias * biasWeight;
             _output = 1.0 / (1 + Math.Exp(0 - net));
             return Output;
+        }
+
+        //利用aka設定該節點到輸出的權重
+        public void SetWeight(double aka, int outputNodeIndex, double learningRate = 0.01)
+        {
+            double result = 0 - (aka * _output);
+            _outputWeight[outputNodeIndex] -= learningRate * result;
+        }
+
+        //把該節點和所有輸出節點間的weight乘與Aka再相加存起來
+        public void CalculateTotalAkaWeight(double aka, int outputNodeIndex)
+        {
+            _totalAkaWeight += aka * _outputWeight[outputNodeIndex];
+        }
+
+        //將該節點的totalAkaWeight重置
+        public void ResetTotalAkaWeight()
+        {
+            _totalAkaWeight = 0;
+        }
+
+        public double TotalAkaWeight
+        {
+            get
+            {
+                return _totalAkaWeight;
+            }
         }
 
         public double Output

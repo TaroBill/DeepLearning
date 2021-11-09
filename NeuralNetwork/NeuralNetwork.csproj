@@ -52,6 +52,7 @@
       <DependentUpon>DisplayForm.cs</DependentUpon>
     </Compile>
     <Compile Include="NeuralLayer.cs" />
+    <Compile Include="NeuralNetwork.cs" />
     <Compile Include="NeuralNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

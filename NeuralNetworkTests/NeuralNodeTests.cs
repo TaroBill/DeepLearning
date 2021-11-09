@@ -20,11 +20,11 @@ namespace NeuralNetwork.Tests
 
         //測試設定新的Weight
         [TestMethod()]
-        public void CreateNewWeightTest()
+        public void SetWeightsAmountTest()
         {
             NeuralNode testNode = new NeuralNode();
             Assert.IsTrue(testNode.OutputWeight.Count() == 0);
-            testNode.CreateNewWeight(5);
+            testNode.SetWeightsAmount(5);
             Assert.IsTrue(testNode.OutputWeight.Count() == 5);
         }
 

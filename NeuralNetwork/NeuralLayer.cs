@@ -50,8 +50,8 @@ namespace NeuralNetwork
                 _nodes[nodeIndex].LogisticFunction(inputLayer.Nodes, nodeIndex, _bias, _biasWeight);
         }
 
-        //計算整層的FeedForward
-        public void CalculateFeedForward(List<int> inputs)
+        //計算輸入整層的FeedForward
+        public void CalculateFeedForward(List<double> inputs)
         {
             if (inputs.Count() != _nodes.Count())
                 throw new Exception("輸入層與輸入的值個數不同");
@@ -59,6 +59,45 @@ namespace NeuralNetwork
                 _nodes[nodeIndex].Output = inputs[nodeIndex];
         }
 
+        //使用反向傳播法計算激勵函數為Logistic funtion，輸出層到內層
+        public List<double> LogisticBackpropagation(List<double> realValue)
+        {
+            if (realValue.Count() < _nodes.Count())
+                throw new Exception("實際輸出結果數量要跟輸出節點數量相同");
+            List<double> outputAka = new List<double>();
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+            {
+                double outputAtIndex = _nodes[nodeIndex].Output;
+                outputAka.Add(0 - (realValue[nodeIndex] - outputAtIndex) * outputAtIndex * (1 - outputAtIndex));
+            }
+            return outputAka;
+        }
+
+        //使用反向傳播法計算激勵函數為Logistic funtion，隱藏層到輸入層或隱藏層
+        public List<double> LogisticBackpropagation()
+        {
+            List<double> outputAka = new List<double>();
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+            {
+                double outputAtIndex = _nodes[nodeIndex].Output;
+                outputAka.Add(_nodes[nodeIndex].TotalAkaWeight * outputAtIndex * (outputAtIndex - 1));
+            }
+            return outputAka;
+        }
+
+        //使用aka來設定Weight(與上面的函示位於不同層)
+        public void LogisticBackpropagationSetWeight(List<double> akaValue)
+        {
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+            {
+                _nodes[nodeIndex].ResetTotalAkaWeight();
+                for (int akaIndex = 0; akaIndex < akaValue.Count(); akaIndex++)
+                {
+                    _nodes[nodeIndex].CalculateTotalAkaWeight(akaValue[akaIndex], akaIndex);
+                    _nodes[nodeIndex].SetWeight(akaValue[akaIndex], akaIndex, _learningRate);
+                }
+            }
+        }
 
         public List<NeuralNode> Nodes
         {
