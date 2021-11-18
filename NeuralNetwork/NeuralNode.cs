@@ -10,7 +10,7 @@ namespace NeuralNetwork
     {
         private double _output;
         private List<double> _outputWeight;
-        private readonly Random _random;
+        private Random _random;
         private double _totalAkaWeight;
 
         public NeuralNode()
@@ -26,13 +26,19 @@ namespace NeuralNetwork
         {
             _outputWeight.Clear();
             for (int index = 0; index < amount; index++)
-                _outputWeight.Add(_random.NextDouble());
+            {
+                _random = new Random(Guid.NewGuid().GetHashCode());
+                double randomValue = _random.NextDouble();
+                _outputWeight.Add((randomValue * 2 - 1));
+            }
         }
 
         //增加一個輸出節點
         public void AddNewNodeWeight()
         {
-            _outputWeight.Add(_random.NextDouble());
+            _random = new Random();
+            double randomValue = _random.NextDouble();
+            _outputWeight.Add((randomValue * 2 - 1));
         }
 
         //對該節點進行Logistic運算(中間層)
@@ -43,13 +49,13 @@ namespace NeuralNetwork
                 net += (Neuron.Output * Neuron._outputWeight[thisNodeIndex]);
             net += bias * biasWeight;
             _output = 1.0 / (1 + Math.Exp(0 - net));
-            return Output;
+            return _output;
         }
 
         //利用aka設定該節點到輸出的權重
         public void SetWeight(double aka, int outputNodeIndex, double learningRate = 0.01)
         {
-            double result = 0 - (aka * _output);
+            double result = (aka * _output);
             _outputWeight[outputNodeIndex] -= learningRate * result;
         }
 

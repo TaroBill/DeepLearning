@@ -51,6 +51,7 @@
     <Compile Include="DisplayForm.Designer.cs">
       <DependentUpon>DisplayForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DisplayFormPM.cs" />
     <Compile Include="NeuralLayer.cs" />
     <Compile Include="NeuralNetwork.cs" />
     <Compile Include="NeuralNode.cs" />
