@@ -67,12 +67,12 @@ namespace NeuralNetwork
         //使用反向傳播法計算激勵函數為Logistic funtion
         private void LogisticBackpropagation(List<double> realResults)
         {
-            List<double> outputNodesAka = _neuralLayers[_neuralLayers.Count() - 1].LogisticBackpropagation(realResults);
-            _neuralLayers[_neuralLayers.Count() - 2].LogisticBackpropagationSetWeight(outputNodesAka);
+            List<double> outputNodesDelta = _neuralLayers[_neuralLayers.Count() - 1].LogisticBackpropagation(realResults);
+            _neuralLayers[_neuralLayers.Count() - 2].LogisticBackpropagationSetWeight(outputNodesDelta);
             for (int layerIndex = _neuralLayers.Count() - 2; layerIndex > 0; layerIndex--)
             {
-                outputNodesAka = _neuralLayers[layerIndex].LogisticBackpropagation();
-                _neuralLayers[layerIndex - 1].LogisticBackpropagationSetWeight(outputNodesAka);
+                outputNodesDelta = _neuralLayers[layerIndex].LogisticBackpropagation();
+                _neuralLayers[layerIndex - 1].LogisticBackpropagationSetWeight(outputNodesDelta);
             }
         }
 

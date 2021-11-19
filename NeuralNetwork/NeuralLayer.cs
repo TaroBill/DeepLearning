@@ -80,51 +80,51 @@ namespace NeuralNetwork
         {
             if (realValue.Count() < _nodes.Count())
                 throw new Exception("實際輸出結果數量要跟輸出節點數量相同");
-            List<double> outputAka = new List<double>();
+            List<double> outputDelta = new List<double>();
             for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
             {
                 double outputAtIndex = _nodes[nodeIndex].Output;
-                outputAka.Add(0 - ((realValue[nodeIndex] - outputAtIndex) * outputAtIndex * (1 - outputAtIndex)));
+                outputDelta.Add(0 - ((realValue[nodeIndex] - outputAtIndex) * outputAtIndex * (1 - outputAtIndex)));
             }
-            SetBiasWeight(outputAka);
-            return outputAka;
+            SetBiasWeight(outputDelta);
+            return outputDelta;
         }
 
         //設定此層的bias和bias weight
-        private void SetBiasWeight(List<double> thisAkas)
+        private void SetBiasWeight(List<double> thisDeltas)
         {
-            if (thisAkas.Count() != _biasWeight.Count())
-                throw new Exception("計算出的aka量應該要和此層node數量相同");
-            for (int akaIndex = 0; akaIndex < thisAkas.Count(); akaIndex++)
+            if (thisDeltas.Count() != _biasWeight.Count())
+                throw new Exception("計算出的delta量應該要和此層node數量相同");
+            for (int deltaIndex = 0; deltaIndex < thisDeltas.Count(); deltaIndex++)
             {
-                double result = (thisAkas[akaIndex] * _bias);
-                _biasWeight[akaIndex] -= _learningRate * result;
+                double result = (thisDeltas[deltaIndex] * _bias);
+                _biasWeight[deltaIndex] -= _learningRate * result;
             }
         }
 
         //使用反向傳播法計算激勵函數為Logistic funtion，隱藏層到輸入層或隱藏層
         public List<double> LogisticBackpropagation()
         {
-            List<double> outputAka = new List<double>();
+            List<double> outputDelta = new List<double>();
             for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
             {
                 double outputAtIndex = _nodes[nodeIndex].Output;
-                outputAka.Add(_nodes[nodeIndex].TotalAkaWeight * outputAtIndex * (1 - outputAtIndex));
+                outputDelta.Add(_nodes[nodeIndex].TotalDeltaWeight * outputAtIndex * (1 - outputAtIndex));
             }
-            SetBiasWeight(outputAka);
-            return outputAka;
+            SetBiasWeight(outputDelta);
+            return outputDelta;
         }
 
-        //使用aka來設定Weight(與上面的函式位於不同層)
-        public void LogisticBackpropagationSetWeight(List<double> akaValue)
+        //使用delta來設定Weight(與上面的函式位於不同層)
+        public void LogisticBackpropagationSetWeight(List<double> deltaValue)
         {
             for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
             {
-                _nodes[nodeIndex].ResetTotalAkaWeight();
-                for (int akaIndex = 0; akaIndex < akaValue.Count(); akaIndex++)
+                _nodes[nodeIndex].ResetTotalDeltaWeight();
+                for (int deltaIndex = 0; deltaIndex < deltaValue.Count(); deltaIndex++)
                 {
-                    _nodes[nodeIndex].CalculateTotalAkaWeight(akaValue[akaIndex], akaIndex);
-                    _nodes[nodeIndex].SetWeight(akaValue[akaIndex], akaIndex, _learningRate);
+                    _nodes[nodeIndex].CalculateTotalDeltaWeight(deltaValue[deltaIndex], deltaIndex);
+                    _nodes[nodeIndex].SetWeight(deltaValue[deltaIndex], deltaIndex, _learningRate);
                 }
             }
         }

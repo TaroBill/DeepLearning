@@ -11,12 +11,12 @@ namespace NeuralNetwork
         private double _output;
         private List<double> _outputWeight;
         private Random _random;
-        private double _totalAkaWeight;
+        private double _totalDeltaWeight;
 
         public NeuralNode()
         {
             _output = 0;
-            _totalAkaWeight = 0;
+            _totalDeltaWeight = 0;
             _outputWeight = new List<double>();
             _random = new Random();
         }
@@ -52,30 +52,30 @@ namespace NeuralNetwork
             return _output;
         }
 
-        //利用aka設定該節點到輸出的權重
-        public void SetWeight(double aka, int outputNodeIndex, double learningRate = 0.01)
+        //利用delta設定該節點到輸出的權重
+        public void SetWeight(double delta, int outputNodeIndex, double learningRate = 0.01)
         {
-            double result = (aka * _output);
+            double result = (delta * _output);
             _outputWeight[outputNodeIndex] -= learningRate * result;
         }
 
-        //把該節點和所有輸出節點間的weight乘與Aka再相加存起來
-        public void CalculateTotalAkaWeight(double aka, int outputNodeIndex)
+        //把該節點和所有輸出節點間的weight乘與Delta再相加存起來
+        public void CalculateTotalDeltaWeight(double delta, int outputNodeIndex)
         {
-            _totalAkaWeight += aka * _outputWeight[outputNodeIndex];
+            _totalDeltaWeight += delta * _outputWeight[outputNodeIndex];
         }
 
-        //將該節點的totalAkaWeight重置
-        public void ResetTotalAkaWeight()
+        //將該節點的totalDeltaWeight重置
+        public void ResetTotalDeltaWeight()
         {
-            _totalAkaWeight = 0;
+            _totalDeltaWeight = 0;
         }
 
-        public double TotalAkaWeight
+        public double TotalDeltaWeight
         {
             get
             {
-                return _totalAkaWeight;
+                return _totalDeltaWeight;
             }
         }
 
