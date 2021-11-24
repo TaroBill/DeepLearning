@@ -32,7 +32,6 @@ namespace NeuralNetwork
                 double randomValue = _random.NextDouble();
                 _biasWeight.Add((randomValue * 2 - 1));
             }
-
         }
 
         //設定輸出的weights數量
@@ -44,10 +43,13 @@ namespace NeuralNetwork
             }
         }
 
-        //加入一個節點到Mode
-        public void AddNode()
+        //加入一個節點到Layer
+        public void AddNode(NeuralNode node)
         {
-            _nodes.Add(new NeuralNode());
+            _nodes.Add(node);
+            _random = new Random(Guid.NewGuid().GetHashCode());
+            double randomValue = _random.NextDouble();
+            _biasWeight.Add((randomValue * 2 - 1));
         }
 
         //計算整層的FeedForward
@@ -123,7 +125,7 @@ namespace NeuralNetwork
                 _nodes[nodeIndex].ResetTotalDeltaWeight();
                 for (int deltaIndex = 0; deltaIndex < deltaValue.Count(); deltaIndex++)
                 {
-                    _nodes[nodeIndex].CalculateTotalDeltaWeight(deltaValue[deltaIndex], deltaIndex);
+                    _nodes[nodeIndex].AddTotalDeltaWeight(deltaValue[deltaIndex], deltaIndex);
                     _nodes[nodeIndex].SetWeight(deltaValue[deltaIndex], deltaIndex, _learningRate);
                 }
             }

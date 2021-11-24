@@ -193,22 +193,32 @@
               <AnalysisFile>
                 <RelativePath>DisplayForm.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>ViewOrController</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>DisplayForm.Designer.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Designer</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>DisplayFormPM.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>NeuralLayer.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>NeuralNetwork.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>NeuralNode.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Program.cs</RelativePath>
@@ -233,12 +243,12 @@
               <AnalysisFile>
                 <RelativePath>NeuralNodeTests.cs</RelativePath>
                 <ProjectName>NeuralNetworkTests</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Test</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Properties\AssemblyInfo.cs</RelativePath>
                 <ProjectName>NeuralNetworkTests</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
             </AnalysisFiles>
           </AnalysisFileManager>

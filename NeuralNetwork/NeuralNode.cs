@@ -33,6 +33,16 @@ namespace NeuralNetwork
             }
         }
 
+        //從資料設定輸出weights
+        public void LoadWeights(List<double> weights)
+        {
+            _outputWeight.Clear();
+            for (int index = 0; index < weights.Count(); index++)
+            {
+                _outputWeight.Add(weights[index]);
+            }
+        }
+
         //增加一個輸出節點
         public void AddNewNodeWeight()
         {
@@ -60,7 +70,7 @@ namespace NeuralNetwork
         }
 
         //把該節點和所有輸出節點間的weight乘與Delta再相加存起來
-        public void CalculateTotalDeltaWeight(double delta, int outputNodeIndex)
+        public void AddTotalDeltaWeight(double delta, int outputNodeIndex)
         {
             _totalDeltaWeight += delta * _outputWeight[outputNodeIndex];
         }
