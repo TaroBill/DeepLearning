@@ -10,7 +10,7 @@ namespace NeuralNetwork
     {
         private readonly List<NeuralNode> _nodes = new List<NeuralNode>();
         private readonly double _bias;
-        private readonly List<double> _biasWeight = new List<double>();
+        private List<double> _biasWeight = new List<double>();
         private readonly double _learningRate;
         private Random _random = new Random();
 
@@ -140,6 +140,16 @@ namespace NeuralNetwork
                 output.Add(node.OutputWeight.ToList());
             }
             return output;
+        }
+
+        //設置bias的weights
+        public void InitBiasWeight(List<double> biasWeight)
+        {
+            if (biasWeight.Count != this.NodeAmount)
+                return;
+            _biasWeight.Clear();
+            foreach (double weight in biasWeight)
+                _biasWeight.Add(weight);
         }
 
         public int NodeAmount
