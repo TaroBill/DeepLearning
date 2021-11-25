@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NeuralNetwork;
+using NeuralNetwork.ActivationFunction;
+using NeuralNetwork.LossFunction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,32 +25,32 @@ namespace NeuralNetwork.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            _layer1Node1 = new NeuralNode();
+            _layer1Node1 = new NeuralNode(new Logistic());
             _layer1Node1.LoadWeights(new List<double>() { 0.1, 0.2});
             _layer1Node1.Output = 0.5;
             _layer1Node1.AddTotalDeltaWeight(0.5, 0);
 
-            _layer1Node2 = new NeuralNode();
+            _layer1Node2 = new NeuralNode(new Logistic());
             _layer1Node2.LoadWeights(new List<double>() { 0.3, 0.4 });
             _layer1Node2.Output = 0.4;
             _layer1Node2.AddTotalDeltaWeight(0.4, 0);
 
-            _layer1 = new NeuralLayer(0, 0.1, 0.8);
+            _layer1 = new NeuralLayer(0, 0.1, 0.8, new Logistic(), new SquaredError());
             _layer1.AddNode(_layer1Node1);
             _layer1.AddNode(_layer1Node2);
             _layer1.InitBiasWeight(new List<double>() { 0.5, 0.5});
 
-            _layer2Node1 = new NeuralNode();
+            _layer2Node1 = new NeuralNode(new Logistic());
             _layer2Node1.LoadWeights(new List<double>() { 0.3, 0.4 });
             _layer2Node1.Output = 0.4;
             _layer2Node1.AddTotalDeltaWeight(0.5, 0);
 
-            _layer2Node2 = new NeuralNode();
+            _layer2Node2 = new NeuralNode(new Logistic());
             _layer2Node2.LoadWeights(new List<double>() { 0.3, 0.4 });
             _layer2Node2.Output = 0.4;
             _layer2Node2.AddTotalDeltaWeight(0.4, 0);
 
-            _layer2 = new NeuralLayer(0, 0.1, 0.8);
+            _layer2 = new NeuralLayer(0, 0.1, 0.8, new Logistic(), new SquaredError());
             _layer2.AddNode(_layer2Node1);
             _layer2.AddNode(_layer2Node2);
             _layer2.InitBiasWeight(new List<double>() { 0.5, 0.5 });
@@ -84,14 +86,16 @@ namespace NeuralNetwork.Tests
                 Assert.IsTrue(node.OutputWeight.Count() == 5);
         }
 
+        //測試加入Node
         [TestMethod()]
         public void AddNodeTest()
         {
             Assert.IsTrue(_layer1.NodeAmount == 2);
-            _layer1.AddNode(new NeuralNode());
+            _layer1.AddNode(new NeuralNode(new Logistic()));
             Assert.IsTrue(_layer1.NodeAmount == 3);
         }
 
+        //測試前匯1
         [TestMethod()]
         public void CalculateFeedForwardTest()
         {
@@ -104,6 +108,7 @@ namespace NeuralNetwork.Tests
             Assert.AreEqual(expectValue2, resultValue2, 0.000001);
         }
 
+        //測試前匯2
         [TestMethod()]
         public void CalculateFeedForwardTest1()
         {
@@ -116,6 +121,7 @@ namespace NeuralNetwork.Tests
             Assert.AreEqual(expectValue2, resultValue2, 0.000001);
         }
 
+        //測試取得輸出
         [TestMethod()]
         public void GetOutputTest()
         {
@@ -125,31 +131,34 @@ namespace NeuralNetwork.Tests
             Assert.AreEqual(_layer2.GetOutput()[1], _layer2Node2.Output, 0.000001);
         }
 
+        //測試反向傳播法
         [TestMethod()]
-        public void LogisticBackpropagationTest()
+        public void BackpropagationTest()
         {
-            List<double> result = _layer2.LogisticBackpropagation();
+            List<double> result = _layer2.Backpropagation();
             double expectValue1 = (0.5 * 0.3) * 0.4 * (1 - 0.4);
             double expectValue2 = (0.4 * 0.3) * 0.4 * (1 - 0.4);
             Assert.AreEqual(expectValue1, result[0], 0.000001);
             Assert.AreEqual(expectValue2, result[1], 0.000001);
         }
 
+        //測試反向傳播法1
         [TestMethod()]
-        public void LogisticBackpropagationTest1()
+        public void BackpropagationTest1()
         {
-            List<double> result = _layer2.LogisticBackpropagation(new List<double>() { 1, 0 });
+            List<double> result = _layer2.Backpropagation(new List<double>() { 1, 0 });
             double expectValue1 = 0 - ((1 - 0.4) * 0.4 * (1 - 0.4));
             double expectValue2 = 0 - ((0 - 0.4) * 0.4 * (1 - 0.4));
             Assert.AreEqual(expectValue1, result[0], 0.000001);
             Assert.AreEqual(expectValue2, result[1], 0.000001);
         }
 
+        //測試反向傳播法設置權重
         [TestMethod()]
-        public void LogisticBackpropagationSetWeightTest()
+        public void BackpropagationSetWeightTest()
         {
             List<NeuralNode> nodes = (List<NeuralNode>)_layer1PrrivateObject.GetFieldOrProperty("_nodes");
-            _layer1.LogisticBackpropagationSetWeight(new List<double>() { 1, 0.2 });
+            _layer1.BackpropagationSetWeight(new List<double>() { 1, 0.2 });
             double expectValue1 = 0.1 - 1 * 0.5 * 0.1;
             double expectValue2 = 0.2 - 0.2 * 0.5 * 0.1;
             double expectValue3 = 0.3 - 1 * 0.4 * 0.1;
@@ -160,6 +169,7 @@ namespace NeuralNetwork.Tests
             Assert.AreEqual(expectValue4, nodes[1].OutputWeight[1], 0.000001);
         }
 
+        //測試取得權重
         [TestMethod()]
         public void GetWeightsTest()
         {
@@ -170,6 +180,7 @@ namespace NeuralNetwork.Tests
             Assert.AreEqual(result[1][1], 0.4, 0.000001);
         }
 
+        //測試初始化權重
         [TestMethod()]
         public void InitBiasWeightTest()
         {

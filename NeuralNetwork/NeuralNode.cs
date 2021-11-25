@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeuralNetwork.ActivationFunction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,16 +10,19 @@ namespace NeuralNetwork
     public class NeuralNode
     {
         private double _output;
+        private double _net;
         private List<double> _outputWeight;
         private Random _random;
         private double _totalDeltaWeight;
+        private IActivation _activationFunction;
 
-        public NeuralNode()
+        public NeuralNode(IActivation activationFunction)
         {
             _output = 0;
             _totalDeltaWeight = 0;
             _outputWeight = new List<double>();
             _random = new Random();
+            _activationFunction = activationFunction;
         }
 
         //設定輸出有多少Node
@@ -29,7 +33,13 @@ namespace NeuralNetwork
             {
                 _random = new Random(Guid.NewGuid().GetHashCode());
                 double randomValue = _random.NextDouble();
-                _outputWeight.Add((randomValue * 2 - 1));
+                //_outputWeight.Add((randomValue * 2 - 1));
+                _random = new Random(Guid.NewGuid().GetHashCode());
+                double randomValue2 = _random.NextDouble();
+                double mean = 0;
+                double standard = 1;
+                double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
+                _outputWeight.Add(guassRandom);
             }
         }
 
@@ -46,19 +56,26 @@ namespace NeuralNetwork
         //增加一個輸出節點
         public void AddNewNodeWeight()
         {
-            _random = new Random();
+            _random = new Random(Guid.NewGuid().GetHashCode());
             double randomValue = _random.NextDouble();
-            _outputWeight.Add((randomValue * 2 - 1));
+            //_outputWeight.Add((randomValue * 2 - 1));
+            _random = new Random(Guid.NewGuid().GetHashCode());
+            double randomValue2 = _random.NextDouble();
+            double mean = 0;
+            double standard = 1;
+            double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
+            _outputWeight.Add(guassRandom);
         }
 
         //對該節點進行Logistic運算(中間層)
-        public double LogisticFunction(List<NeuralNode> inputNodes, int thisNodeIndex, double bias, double biasWeight)
+        public double ActivationFunction(List<NeuralNode> inputNodes, int thisNodeIndex, double bias, double biasWeight)
         {
             double net = 0;
             foreach (NeuralNode Neuron in inputNodes)
                 net += (Neuron.Output * Neuron._outputWeight[thisNodeIndex]);
             net += bias * biasWeight;
-            _output = 1.0 / (1 + Math.Exp(0 - net));
+            _net = net;
+            _output = _activationFunction.ActivationFunction(net);
             return _output;
         }
 
@@ -98,6 +115,14 @@ namespace NeuralNetwork
             set
             {
                 _output = value;
+            }
+        }
+
+        public double Net
+        {
+            get
+            {
+                return _net;
             }
         }
 

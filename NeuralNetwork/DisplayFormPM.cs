@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeuralNetwork.ActivationFunction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,14 +58,31 @@ namespace NeuralNetwork
             /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.46));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.35));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(1, 0.1, 0.18));*/
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.46));
+
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.01, 0.5, new Relu()));
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(5, 0.01, -0.35, new Relu()));
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.01, 0.78, new Relu()));
+
+            /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.46));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(5, 0.1, 0.35));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.18));
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.18));*/
         }
 
         //開始訓練此模型
         public void StartTrain(int trainTimes)
         {
+            /* Random _random;
+             for (int i = 0; i < trainTimes; i++)
+             {
+                 _random = new Random(Guid.NewGuid().GetHashCode());
+                 double randomValue = _random.NextDouble();
+                 _random = new Random(Guid.NewGuid().GetHashCode());
+                 double randomValue2 = _random.NextDouble();
+                 double mean = 0.5;
+                 double standard = 1;
+                 double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
+                 Console.WriteLine(guassRandom);
+             }*/
             StartTrainButtonEnable = false;
             _neuralNetwork.StartTrain(trainTimes);
             StartTrainButtonEnable = true;
