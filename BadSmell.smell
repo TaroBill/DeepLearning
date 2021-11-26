@@ -193,22 +193,22 @@
               <AnalysisFile>
                 <RelativePath>ActivationFunction\IActivation.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>ActivationFunction\Logistic.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>ActivationFunction\Relu.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>ActivationFunction\Softmax.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>DisplayForm.cs</RelativePath>
@@ -228,17 +228,22 @@
               <AnalysisFile>
                 <RelativePath>LossFunction\CrossEntropy.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>LossFunction\ILossFunction.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>LossFunction\MeanSquareError.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>LossFunction\SquaredError.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>NeuralLayer.cs</RelativePath>
@@ -278,7 +283,7 @@
               <AnalysisFile>
                 <RelativePath>NeuralLayerTests.cs</RelativePath>
                 <ProjectName>NeuralNetworkTests</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Test</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>NeuralNodeTests.cs</RelativePath>

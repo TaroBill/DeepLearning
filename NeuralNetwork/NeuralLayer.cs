@@ -14,7 +14,6 @@ namespace NeuralNetwork
         private readonly double _bias;
         private List<double> _biasWeight = new List<double>();
         private readonly double _learningRate;
-        private Random _random = new Random();
         private IActivation _activation;
 
         public NeuralLayer(int nodesAmount, double learningRate, double bias, IActivation activation = null, ILossFunction lossFunction = null)
@@ -32,15 +31,7 @@ namespace NeuralNetwork
             for (int index = 0; index < amount; index++)
             {
                 _nodes.Add(new NeuralNode(_activation));
-                _random = new Random(Guid.NewGuid().GetHashCode());
-                double randomValue = _random.NextDouble();
-                _random = new Random(Guid.NewGuid().GetHashCode());
-                double randomValue2 = _random.NextDouble();
-                //_biasWeight.Add((randomValue * 2 - 1));
-                double mean = 1;
-                double standard = 0.5;
-                double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
-                _biasWeight.Add(guassRandom * Math.Sqrt(2.0 / amount));
+                _biasWeight.Add(MyRandom.NextXavier(1, 0.5, amount));
             }
         }
 
@@ -57,15 +48,7 @@ namespace NeuralNetwork
         public void AddNode(NeuralNode node)
         {
             _nodes.Add(node);
-            _random = new Random(Guid.NewGuid().GetHashCode());
-            double randomValue = _random.NextDouble();
-            //_biasWeight.Add((randomValue * 2 - 1));
-            _random = new Random(Guid.NewGuid().GetHashCode());
-            double randomValue2 = _random.NextDouble();
-            double mean = 1;
-            double standard = 0.5;
-            double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
-            _biasWeight.Add(guassRandom * Math.Sqrt(2.0 / (NodeAmount+1)));
+            _biasWeight.Add(MyRandom.NextXavier(1, 0.5, NodeAmount+1));
         }
 
         //計算整層的FeedForward

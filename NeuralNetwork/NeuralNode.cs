@@ -12,7 +12,6 @@ namespace NeuralNetwork
         private double _output;
         private double _net;
         private List<double> _outputWeight;
-        private Random _random;
         private double _totalDeltaWeight;
         private IActivation _activationFunction;
 
@@ -21,7 +20,6 @@ namespace NeuralNetwork
             _output = 0;
             _totalDeltaWeight = 0;
             _outputWeight = new List<double>();
-            _random = new Random();
             _activationFunction = activationFunction;
         }
 
@@ -31,15 +29,7 @@ namespace NeuralNetwork
             _outputWeight.Clear();
             for (int index = 0; index < amount; index++)
             {
-                _random = new Random(Guid.NewGuid().GetHashCode());
-                double randomValue = _random.NextDouble();
-                //_outputWeight.Add((randomValue * 2 - 1));
-                _random = new Random(Guid.NewGuid().GetHashCode());
-                double randomValue2 = _random.NextDouble();
-                double mean = 0;
-                double standard = 0.3;
-                double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
-                _outputWeight.Add(guassRandom * Math.Sqrt(2.0 / amount));
+                _outputWeight.Add(MyRandom.NextXavier(0, 0.3, amount));
             }
         }
 
@@ -56,15 +46,7 @@ namespace NeuralNetwork
         //增加一個輸出節點
         public void AddNewNodeWeight()
         {
-            _random = new Random(Guid.NewGuid().GetHashCode());
-            double randomValue = _random.NextDouble();
-            //_outputWeight.Add((randomValue * 2 - 1));
-            _random = new Random(Guid.NewGuid().GetHashCode());
-            double randomValue2 = _random.NextDouble();
-            double mean = 0;
-            double standard = 0.3;
-            double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
-            _outputWeight.Add(guassRandom * Math.Sqrt(2.0 / (_outputWeight.Count()+1)));
+            _outputWeight.Add(MyRandom.NextXavier(0, 0.3, _outputWeight.Count()+1));
         }
 
         //對該節點進行Logistic運算(中間層)
