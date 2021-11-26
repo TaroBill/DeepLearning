@@ -191,6 +191,26 @@
           <AnalysisFileManager>
             <AnalysisFiles>
               <AnalysisFile>
+                <RelativePath>ActivationFunction\IActivation.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>ActivationFunction\Logistic.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>ActivationFunction\Relu.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>ActivationFunction\Softmax.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>DisplayForm.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>ViewOrController</AnalysisFileType>
@@ -203,6 +223,21 @@
               <AnalysisFile>
                 <RelativePath>DisplayFormPM.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>LossFunction\CrossEntropy.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>LossFunction\ILossFunction.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>LossFunction\SquaredError.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
@@ -213,7 +248,7 @@
               <AnalysisFile>
                 <RelativePath>NeuralNetwork.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Unknown</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>NeuralNode.cs</RelativePath>
@@ -239,6 +274,11 @@
                 <RelativePath>Properties\Settings.Designer.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Designer</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>NeuralLayerTests.cs</RelativePath>
+                <ProjectName>NeuralNetworkTests</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>NeuralNodeTests.cs</RelativePath>

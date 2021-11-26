@@ -14,6 +14,12 @@ namespace NeuralNetwork.ActivationFunction
             return 1.0 / (1 + Math.Exp(0 - net));
         }
 
+        //不實作
+        public List<double> ActivationFunction(List<double> net)
+        {
+            return net;
+        }
+
         //logistc Function對net偏微分
         public double PartialDerivativeActivationFunction(double net, double output)
         {

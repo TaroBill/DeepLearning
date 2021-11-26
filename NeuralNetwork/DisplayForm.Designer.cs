@@ -35,6 +35,9 @@ namespace NeuralNetwork
             this._resultLabel = new System.Windows.Forms.Label();
             this._trainTimesTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this._printWeightButton = new System.Windows.Forms.Button();
+            this._layerLabel = new System.Windows.Forms.Label();
+            this._layerIndexTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // _trainButton
@@ -98,11 +101,40 @@ namespace NeuralNetwork
             this.label1.TabIndex = 5;
             this.label1.Text = "訓練次數";
             // 
+            // _printWeightButton
+            // 
+            this._printWeightButton.Location = new System.Drawing.Point(307, 356);
+            this._printWeightButton.Name = "_printWeightButton";
+            this._printWeightButton.Size = new System.Drawing.Size(135, 49);
+            this._printWeightButton.TabIndex = 6;
+            this._printWeightButton.Text = "輸出權重";
+            this._printWeightButton.UseVisualStyleBackColor = true;
+            // 
+            // _layerLabel
+            // 
+            this._layerLabel.AutoSize = true;
+            this._layerLabel.Font = new System.Drawing.Font("新細明體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this._layerLabel.Location = new System.Drawing.Point(141, 357);
+            this._layerLabel.Name = "_layerLabel";
+            this._layerLabel.Size = new System.Drawing.Size(102, 19);
+            this._layerLabel.TabIndex = 8;
+            this._layerLabel.Text = "第N層Layer";
+            // 
+            // _layerIndexTextBox
+            // 
+            this._layerIndexTextBox.Location = new System.Drawing.Point(143, 383);
+            this._layerIndexTextBox.Name = "_layerIndexTextBox";
+            this._layerIndexTextBox.Size = new System.Drawing.Size(100, 22);
+            this._layerIndexTextBox.TabIndex = 7;
+            // 
             // DisplayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._layerLabel);
+            this.Controls.Add(this._layerIndexTextBox);
+            this.Controls.Add(this._printWeightButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this._trainTimesTextBox);
             this.Controls.Add(this._resultLabel);
@@ -124,6 +156,9 @@ namespace NeuralNetwork
         private System.Windows.Forms.Label _resultLabel;
         private System.Windows.Forms.TextBox _trainTimesTextBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button _printWeightButton;
+        private System.Windows.Forms.Label _layerLabel;
+        private System.Windows.Forms.TextBox _layerIndexTextBox;
     }
 }
 

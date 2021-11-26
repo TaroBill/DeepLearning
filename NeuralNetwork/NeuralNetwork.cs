@@ -14,9 +14,11 @@ namespace NeuralNetwork
         private List<List<double>> _inputs;
         private List<List<double>> _realResult;
         private Random _random = new Random();
+        private ILossFunction _lossFunction;
 
         public NeuralNetwork(List<List<double>> inputs, List<List<double>> realResults)
         {
+            _lossFunction =  new SquaredError();
             _neuralLayers = new List<NeuralLayer>();
             _inputs = inputs;
             _realResult = realResults;
@@ -39,6 +41,7 @@ namespace NeuralNetwork
             {
                 int randomChoose = _random.Next(0, _inputs.Count());
                 CalculateResult(_inputs[randomChoose]);
+                _lossFunction.LossFunction(_realResult[randomChoose], _neuralLayers[_neuralLayers.Count() - 1].GetOutput());
                 Backpropagation(_realResult[randomChoose]);
             }
         }
@@ -69,13 +72,19 @@ namespace NeuralNetwork
         //使用反向傳播法計算激勵函數為Logistic funtion
         private void Backpropagation(List<double> realResults)
         {
-            List<double> outputNodesDelta = _neuralLayers[_neuralLayers.Count() - 1].Backpropagation(realResults);
+            List<double> outputNodesDelta = _neuralLayers[_neuralLayers.Count() - 1].Backpropagation(realResults, _lossFunction);
             _neuralLayers[_neuralLayers.Count() - 2].BackpropagationSetWeight(outputNodesDelta);
             for (int layerIndex = _neuralLayers.Count() - 2; layerIndex > 0; layerIndex--)
             {
                 outputNodesDelta = _neuralLayers[layerIndex].Backpropagation();
                 _neuralLayers[layerIndex - 1].BackpropagationSetWeight(outputNodesDelta);
             }
+        }
+
+        //設置lossFunction
+        public void SetLossFunction(ILossFunction lossFunction)
+        {
+            _lossFunction = lossFunction;
         }
 
         //印出該層的所有weight

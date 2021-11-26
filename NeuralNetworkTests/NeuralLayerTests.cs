@@ -146,7 +146,7 @@ namespace NeuralNetwork.Tests
         [TestMethod()]
         public void BackpropagationTest1()
         {
-            List<double> result = _layer2.Backpropagation(new List<double>() { 1, 0 });
+            List<double> result = _layer2.Backpropagation(new List<double>() { 1, 0 }, new SquaredError());
             double expectValue1 = 0 - ((1 - 0.4) * 0.4 * (1 - 0.4));
             double expectValue2 = 0 - ((0 - 0.4) * 0.4 * (1 - 0.4));
             Assert.AreEqual(expectValue1, result[0], 0.000001);

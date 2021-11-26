@@ -11,6 +11,9 @@ namespace NeuralNetwork.ActivationFunction
         //激勵函式
         double ActivationFunction(double net);
 
+        //激勵函式(需要用到所有輸出)例如softmax
+        List<double> ActivationFunction(List<double> net);
+
         //對激勵函式微分
         double PartialDerivativeActivationFunction(double net, double output);
     }

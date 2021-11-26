@@ -18,7 +18,9 @@ namespace NeuralNetwork
             InitializeComponent();
             _displayFormPM = displayFormPM;
             _trainTimesTextBox.KeyPress += PressKeyInNumberOnlyTextBox;
+            _layerIndexTextBox.KeyPress += PressKeyInNumberOnlyTextBox;
             _displayFormPM.LabelChangedEnable += UpdateLabel;
+            _printWeightButton.Click += ClickPrintWeightButton;
         }
 
         //更新label
@@ -35,6 +37,12 @@ namespace NeuralNetwork
             _inputComboBox.SelectedIndex = -1;
             _displayFormPM.StartTrain(Convert.ToInt32(_trainTimesTextBox.Text));
             _inputComboBox.Enabled = true;
+        }
+
+        //按下訓練按鈕
+        private void ClickPrintWeightButton(object sender, EventArgs e)
+        {
+            _displayFormPM.PrintWeight(Int32.Parse(_layerIndexTextBox.Text));
         }
 
         //textBox按鈕輸入事件

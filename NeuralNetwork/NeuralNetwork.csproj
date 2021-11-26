@@ -48,6 +48,7 @@
     <Compile Include="ActivationFunction\IActivation.cs" />
     <Compile Include="ActivationFunction\Logistic.cs" />
     <Compile Include="ActivationFunction\Relu.cs" />
+    <Compile Include="ActivationFunction\Softmax.cs" />
     <Compile Include="DisplayForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,7 +56,9 @@
       <DependentUpon>DisplayForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DisplayFormPM.cs" />
+    <Compile Include="LossFunction\CrossEntropy.cs" />
     <Compile Include="LossFunction\ILossFunction.cs" />
+    <Compile Include="LossFunction\MeanSquareError.cs" />
     <Compile Include="LossFunction\SquaredError.cs" />
     <Compile Include="NeuralLayer.cs" />
     <Compile Include="NeuralNetwork.cs" />

@@ -16,12 +16,10 @@ namespace NeuralNetwork
         private readonly double _learningRate;
         private Random _random = new Random();
         private IActivation _activation;
-        private ILossFunction _lossFunction;
 
         public NeuralLayer(int nodesAmount, double learningRate, double bias, IActivation activation = null, ILossFunction lossFunction = null)
         {
-             _activation = activation == null ? new Logistic() : activation;
-            _lossFunction = lossFunction == null ? new SquaredError() : lossFunction;
+             _activation = activation ?? new Logistic();
             _learningRate = learningRate;
             _bias = bias;
             InitializeNodes(nodesAmount);
@@ -39,10 +37,10 @@ namespace NeuralNetwork
                 _random = new Random(Guid.NewGuid().GetHashCode());
                 double randomValue2 = _random.NextDouble();
                 //_biasWeight.Add((randomValue * 2 - 1));
-                double mean = 0;
-                double standard = 1;
+                double mean = 1;
+                double standard = 0.5;
                 double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
-                _biasWeight.Add(guassRandom);
+                _biasWeight.Add(guassRandom * Math.Sqrt(2.0 / amount));
             }
         }
 
@@ -64,18 +62,27 @@ namespace NeuralNetwork
             //_biasWeight.Add((randomValue * 2 - 1));
             _random = new Random(Guid.NewGuid().GetHashCode());
             double randomValue2 = _random.NextDouble();
-            double mean = 0;
-            double standard = 1;
+            double mean = 1;
+            double standard = 0.5;
             double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
-            _biasWeight.Add(guassRandom);
+            _biasWeight.Add(guassRandom * Math.Sqrt(2.0 / (NodeAmount+1)));
         }
 
         //計算整層的FeedForward
         public void CalculateFeedForward(NeuralLayer inputLayer)
         {
+            List<double> allOutput = new List<double>();
             for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
-                _nodes[nodeIndex].ActivationFunction(inputLayer._nodes, nodeIndex, _bias, _biasWeight[nodeIndex]);
+            {
+                double outputValue = _nodes[nodeIndex].ActivationFunction(inputLayer._nodes, nodeIndex, _bias, _biasWeight[nodeIndex]);
+                allOutput.Add(outputValue);
+            }
+            List<double> result = _activation.ActivationFunction(allOutput);
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+                _nodes[nodeIndex].Output = result[nodeIndex];
         }
+
+
 
         //計算輸入整層的FeedForward
         public void CalculateFeedForward(List<double> inputs)
@@ -96,14 +103,14 @@ namespace NeuralNetwork
         }
 
         //使用反向傳播法計算激勵函數，輸出層到內層
-        public List<double> Backpropagation(List<double> realValue)
+        public List<double> Backpropagation(List<double> realValue, ILossFunction lossFunction)
         {
             if (realValue.Count() < _nodes.Count())
                 throw new Exception("實際輸出結果數量要跟輸出節點數量相同");
             List<double> outputDelta = new List<double>();
             for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
             {
-                double lossPartialDerivative = _lossFunction.PartialDerivativeLossFunction(realValue[nodeIndex], _nodes[nodeIndex].Output);
+                double lossPartialDerivative = lossFunction.PartialDerivativeLossFunction(realValue[nodeIndex], _nodes[nodeIndex].Output);
                 double activationPartialDerivative = _activation.PartialDerivativeActivationFunction(_nodes[nodeIndex].Net, _nodes[nodeIndex].Output);
                 outputDelta.Add(lossPartialDerivative * activationPartialDerivative);
             }

@@ -37,9 +37,9 @@ namespace NeuralNetwork
                 _random = new Random(Guid.NewGuid().GetHashCode());
                 double randomValue2 = _random.NextDouble();
                 double mean = 0;
-                double standard = 1;
+                double standard = 0.3;
                 double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
-                _outputWeight.Add(guassRandom);
+                _outputWeight.Add(guassRandom * Math.Sqrt(2.0 / amount));
             }
         }
 
@@ -62,9 +62,9 @@ namespace NeuralNetwork
             _random = new Random(Guid.NewGuid().GetHashCode());
             double randomValue2 = _random.NextDouble();
             double mean = 0;
-            double standard = 1;
+            double standard = 0.3;
             double guassRandom = Math.Sqrt(-2 * Math.Log(randomValue)) * Math.Cos(2 * Math.PI * randomValue2) * standard + mean;
-            _outputWeight.Add(guassRandom);
+            _outputWeight.Add(guassRandom * Math.Sqrt(2.0 / (_outputWeight.Count()+1)));
         }
 
         //對該節點進行Logistic運算(中間層)
