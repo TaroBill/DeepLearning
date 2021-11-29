@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivationFunction\IActivation.cs" />
+    <Compile Include="ActivationFunction\LeakyRelu.cs" />
     <Compile Include="ActivationFunction\Logistic.cs" />
     <Compile Include="ActivationFunction\Relu.cs" />
     <Compile Include="ActivationFunction\Softmax.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="LossFunction\ILossFunction.cs" />
     <Compile Include="LossFunction\MeanSquareError.cs" />
     <Compile Include="LossFunction\SquaredError.cs" />
+    <Compile Include="MyRandom.cs" />
     <Compile Include="NeuralLayer.cs" />
     <Compile Include="NeuralNetwork.cs" />
     <Compile Include="NeuralNode.cs" />

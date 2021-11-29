@@ -24,6 +24,12 @@ namespace NeuralNetwork
             _realResult = realResults;
         }
 
+        public NeuralNetwork(ILossFunction lossFunction = null)
+        {
+            _lossFunction = new SquaredError() ?? lossFunction;
+            _neuralLayers = new List<NeuralLayer>();
+        }
+
         //加入一層神經網路
         public void AddNeuralLayer(NeuralLayer layer)
         {
@@ -54,7 +60,7 @@ namespace NeuralNetwork
         }
 
         //計算此次輸出
-        private void CalculateResult(List<double> inputs)
+        public void CalculateResult(List<double> inputs)
         {
             if (_neuralLayers == null)
                 throw new Exception("沒有輸入任何Layer");
@@ -70,7 +76,7 @@ namespace NeuralNetwork
         }
 
         //使用反向傳播法計算激勵函數為Logistic funtion
-        private void Backpropagation(List<double> realResults)
+        public void Backpropagation(List<double> realResults)
         {
             List<double> outputNodesDelta = _neuralLayers[_neuralLayers.Count() - 1].Backpropagation(realResults, _lossFunction);
             _neuralLayers[_neuralLayers.Count() - 2].BackpropagationSetWeight(outputNodesDelta);
