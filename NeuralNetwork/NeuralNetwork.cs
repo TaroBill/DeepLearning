@@ -11,8 +11,8 @@ namespace NeuralNetwork
     public class NeuralNetwork
     {
         private readonly List<NeuralLayer> _neuralLayers;
-        private readonly List<List<double>> _inputs;
-        private readonly List<List<double>> _realResult;
+        private List<List<double>> _inputs;
+        private List<List<double>> _realResult;
         private readonly Random _random = new Random();
         private ILossFunction _lossFunction;
 
@@ -28,6 +28,13 @@ namespace NeuralNetwork
         {
             _lossFunction = new SquaredError() ?? lossFunction;
             _neuralLayers = new List<NeuralLayer>();
+        }
+
+        //設置訓練資料
+        public void SetTrainData(List<List<double>> inputs, List<List<double>> realResults)
+        {
+            _inputs = inputs;
+            _realResult = realResults;
         }
 
         //加入一層神經網路

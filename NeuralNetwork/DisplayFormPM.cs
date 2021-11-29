@@ -45,27 +45,27 @@ namespace NeuralNetwork
             _inputs = xorInputs;
 
             List<List<double>> xorRealResult = new List<List<double>>();
-            xorRealResult.Add(new List<double>() { -20 });
+            /*xorRealResult.Add(new List<double>() { -20 });
             xorRealResult.Add(new List<double>() { 100 });
             xorRealResult.Add(new List<double>() { 100 });
-            xorRealResult.Add(new List<double>() { -20 });
-            /*xorRealResult.Add(new List<double>() { 1, 0 });
+            xorRealResult.Add(new List<double>() { -20 });*/
+            xorRealResult.Add(new List<double>() { 1, 0 });
             xorRealResult.Add(new List<double>() { 0, 1 });
             xorRealResult.Add(new List<double>() { 0, 1 });
-            xorRealResult.Add(new List<double>() { 1, 0 });*/
+            xorRealResult.Add(new List<double>() { 1, 0 });
             //_realResults = xorRealResult;
 
             _neuralNetwork = new NeuralNetwork(xorInputs, xorRealResult);
 
 
-            /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Logistic()));
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Logistic()));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Logistic()));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Softmax()));
-            _neuralNetwork.SetLossFunction(new MeanSquareError());*/
+            _neuralNetwork.SetLossFunction(new MeanSquareError());
 
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.01, 1, new LeakyRelu()));
+            /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.01, 1, new LeakyRelu()));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(5, 0.01, 1, new LeakyRelu()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(1, 0.01, 1, new LeakyRelu()));
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(1, 0.01, 1, new LeakyRelu()));*/
 
             /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.46));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(5, 0.1, 0.35));
