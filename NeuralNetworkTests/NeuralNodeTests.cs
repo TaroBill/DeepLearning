@@ -93,5 +93,32 @@ namespace NeuralNetwork.Tests
             _node.ResetTotalDeltaWeight();
             Assert.IsTrue(_node.TotalDeltaWeight == 0);
         }
+
+        //測試Copy
+        [TestMethod()]
+        public void CopyTest()
+        {
+            NeuralNode node = _node.Copy();
+            PrivateObject nodePrivateObject = new PrivateObject(_node);
+
+            Assert.AreEqual(node.Output, _node.Output, 0.0001);
+            _node.Output = 0.01;
+            Assert.AreNotEqual(node.Output, _node.Output, 0.0001);
+
+            Assert.AreEqual(node.TotalDeltaWeight, _node.TotalDeltaWeight, 0.0001);
+            nodePrivateObject.SetFieldOrProperty("_totalDeltaWeight", 1.2);
+            Assert.AreNotEqual(node.TotalDeltaWeight, _node.TotalDeltaWeight, 0.0001);
+
+            Assert.AreEqual(node.Net, _node.Net, 0.0001);
+            nodePrivateObject.SetFieldOrProperty("_net", 1.2);
+            Assert.AreNotEqual(node.Net, _node.Net, 0.0001);
+
+            for (int index = 0; index < node.OutputWeight.Count(); index++)
+            {
+                Assert.AreEqual(node.OutputWeight[index], _node.OutputWeight[index], 0.0001);
+                _node.OutputWeight[index] = 1.2;
+                Assert.AreNotEqual(node.OutputWeight[index], _node.OutputWeight[index], 0.0001);
+            }
+        }
     }
 }

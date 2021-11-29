@@ -11,9 +11,9 @@ namespace NeuralNetwork
     public class NeuralNetwork
     {
         private readonly List<NeuralLayer> _neuralLayers;
-        private List<List<double>> _inputs;
-        private List<List<double>> _realResult;
-        private Random _random = new Random();
+        private readonly List<List<double>> _inputs;
+        private readonly List<List<double>> _realResult;
+        private readonly Random _random = new Random();
         private ILossFunction _lossFunction;
 
         public NeuralNetwork(List<List<double>> inputs, List<List<double>> realResults)
@@ -106,6 +106,18 @@ namespace NeuralNetwork
                 Console.WriteLine("==============");
             }
             Console.WriteLine("////////////////////");
+        }
+
+        //印出該層的所有weight
+        public NeuralNetwork Copy()
+        {
+            NeuralNetwork outputNetwork = new NeuralNetwork(_inputs, _realResult);
+            foreach (NeuralLayer layer in _neuralLayers)
+            {
+                outputNetwork.AddNeuralLayer(layer.Copy());
+            }
+            outputNetwork.SetLossFunction(_lossFunction);
+            return outputNetwork;
         }
     }
 }

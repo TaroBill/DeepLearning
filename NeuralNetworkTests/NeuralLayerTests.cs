@@ -35,7 +35,7 @@ namespace NeuralNetwork.Tests
             _layer1Node2.Output = 0.4;
             _layer1Node2.AddTotalDeltaWeight(0.4, 0);
 
-            _layer1 = new NeuralLayer(0, 0.1, 0.8, new Logistic(), new SquaredError());
+            _layer1 = new NeuralLayer(0, 0.1, 0.8, new Logistic());
             _layer1.AddNode(_layer1Node1);
             _layer1.AddNode(_layer1Node2);
             _layer1.InitBiasWeight(new List<double>() { 0.5, 0.5});
@@ -50,7 +50,7 @@ namespace NeuralNetwork.Tests
             _layer2Node2.Output = 0.4;
             _layer2Node2.AddTotalDeltaWeight(0.4, 0);
 
-            _layer2 = new NeuralLayer(0, 0.1, 0.8, new Logistic(), new SquaredError());
+            _layer2 = new NeuralLayer(0, 0.1, 0.8, new Logistic());
             _layer2.AddNode(_layer2Node1);
             _layer2.AddNode(_layer2Node2);
             _layer2.InitBiasWeight(new List<double>() { 0.5, 0.5 });
@@ -190,6 +190,39 @@ namespace NeuralNetwork.Tests
             _layer1.InitBiasWeight(new List<double>() { 0.2, 0.3 });
             Assert.AreEqual(biasWeight[0], 0.2, 0.000001);
             Assert.AreEqual(biasWeight[1], 0.3, 0.000001);
+        }
+
+        //測試複製
+        [TestMethod()]
+        public void CopyTest()
+        {
+            NeuralLayer layer = _layer1.Copy();
+            PrivateObject layerPrivateObject = new PrivateObject(layer);
+            PrivateObject layer1PrivateObject = new PrivateObject(_layer1);
+
+            Assert.AreEqual((double)layerPrivateObject.GetFieldOrProperty("_bias"), (double)layer1PrivateObject.GetFieldOrProperty("_bias"), 0.0001);
+            layer1PrivateObject.SetFieldOrProperty("_bias", 1.2);
+            Assert.AreNotEqual((double)layerPrivateObject.GetFieldOrProperty("_bias"), (double)layer1PrivateObject.GetFieldOrProperty("_bias"), 0.0001);
+
+            Assert.AreEqual((double)layerPrivateObject.GetFieldOrProperty("_learningRate"), (double)layer1PrivateObject.GetFieldOrProperty("_learningRate"), 0.0001);
+            layer1PrivateObject.SetFieldOrProperty("_learningRate", 1.2);
+            Assert.AreNotEqual((double)layerPrivateObject.GetFieldOrProperty("_learningRate"), (double)layer1PrivateObject.GetFieldOrProperty("_learningRate"), 0.0001);
+
+            List<double> layerBiasWeights = (List<double>)layerPrivateObject.GetFieldOrProperty("_biasWeight");
+            List<double> layer1BiasWeights = (List<double>)layer1PrivateObject.GetFieldOrProperty("_biasWeight");
+            for (int index = 0; index < layerBiasWeights.Count(); index++)
+            {
+                Assert.AreEqual(layerBiasWeights[index], layer1BiasWeights[index], 0.0001);
+                layer1BiasWeights[index] = 1.2;
+                Assert.AreNotEqual(layerBiasWeights[index], layer1BiasWeights[index], 0.0001);
+            }
+
+            List<NeuralNode> layerNeuralNode = (List<NeuralNode>)layerPrivateObject.GetFieldOrProperty("_nodes");
+            List<NeuralNode> layer1NeuralNode = (List<NeuralNode>)layer1PrivateObject.GetFieldOrProperty("_nodes");
+            for (int index = 0; index < layerBiasWeights.Count(); index++)
+            {
+                Assert.AreNotEqual(layerNeuralNode[index], layer1NeuralNode[index]);
+            }
         }
     }
 }

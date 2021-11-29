@@ -13,7 +13,7 @@ namespace NeuralNetwork
         private double _net;
         private List<double> _outputWeight;
         private double _totalDeltaWeight;
-        private IActivation _activationFunction;
+        private readonly IActivation _activationFunction;
 
         public NeuralNode(IActivation activationFunction)
         {
@@ -78,6 +78,17 @@ namespace NeuralNetwork
         public void ResetTotalDeltaWeight()
         {
             _totalDeltaWeight = 0;
+        }
+
+        //複製此node
+        public NeuralNode Copy()
+        {
+            NeuralNode neuralNode = new NeuralNode(_activationFunction);
+            neuralNode.Output = _output;
+            neuralNode._net = _net;
+            neuralNode.OutputWeight = _outputWeight.ToList();
+            neuralNode._totalDeltaWeight = _totalDeltaWeight;
+            return neuralNode;
         }
 
         public double TotalDeltaWeight

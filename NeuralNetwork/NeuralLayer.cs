@@ -16,7 +16,7 @@ namespace NeuralNetwork
         private readonly double _learningRate;
         private IActivation _activation;
 
-        public NeuralLayer(int nodesAmount, double learningRate, double bias, IActivation activation = null, ILossFunction lossFunction = null)
+        public NeuralLayer(int nodesAmount, double learningRate, double bias, IActivation activation = null)
         {
              _activation = activation ?? new Logistic();
             _learningRate = learningRate;
@@ -166,6 +166,19 @@ namespace NeuralNetwork
             {
                 return _nodes.Count();
             }
+        }
+
+        //複製此layer
+        public NeuralLayer Copy()
+        {
+            NeuralLayer outputLayer = new NeuralLayer(NodeAmount, _learningRate, _bias, _activation);
+            outputLayer._nodes.Clear();
+            foreach (NeuralNode node in _nodes)
+            {
+                outputLayer.AddNode(node.Copy());
+            }
+            outputLayer.InitBiasWeight(_biasWeight);
+            return outputLayer;
         }
     }
 }
