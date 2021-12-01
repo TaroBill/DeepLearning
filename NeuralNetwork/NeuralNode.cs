@@ -1,4 +1,5 @@
 ﻿using NeuralNetwork.ActivationFunction;
+using NeuralNetwork.Optimizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +15,15 @@ namespace NeuralNetwork
         private List<double> _outputWeight;
         private double _totalDeltaWeight;
         private readonly IActivation _activationFunction;
+        private IOptimizer _optimizer;
 
-        public NeuralNode(IActivation activationFunction)
+        public NeuralNode(IActivation activationFunction, IOptimizer optimizer)
         {
             _output = 0;
             _totalDeltaWeight = 0;
             _outputWeight = new List<double>();
             _activationFunction = activationFunction;
+            _optimizer = optimizer.Copy();
         }
 
         //設定輸出有多少Node
@@ -64,8 +67,8 @@ namespace NeuralNetwork
         //利用delta設定該節點到輸出的權重
         public void SetWeight(double delta, int outputNodeIndex, double learningRate = 0.01)
         {
-            double result = (delta * _output);
-            _outputWeight[outputNodeIndex] -= learningRate * result;
+            double gradient = (delta * _output);
+            _outputWeight[outputNodeIndex] -= _optimizer.GetResult(gradient, learningRate);
         }
 
         //把該節點和所有輸出節點間的weight乘與Delta再相加存起來
@@ -80,10 +83,16 @@ namespace NeuralNetwork
             _totalDeltaWeight = 0;
         }
 
+        //設置Optimizer
+        public void SetOptimizer(IOptimizer optimizer)
+        {
+            _optimizer = optimizer.Copy();
+        }
+
         //複製此node
         public NeuralNode Copy()
         {
-            NeuralNode neuralNode = new NeuralNode(_activationFunction.Copy());
+            NeuralNode neuralNode = new NeuralNode(_activationFunction.Copy(), _optimizer.Copy());
             neuralNode.Output = _output;
             neuralNode._net = _net;
             neuralNode.OutputWeight = _outputWeight.ToList();

@@ -1,5 +1,6 @@
 ﻿using NeuralNetwork.ActivationFunction;
 using NeuralNetwork.LossFunction;
+using NeuralNetwork.Optimizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,14 @@ namespace NeuralNetwork
         private List<double> _biasWeight = new List<double>();
         private readonly double _learningRate;
         private IActivation _activation;
+        private IOptimizer _optimizer;
 
         public NeuralLayer(int nodesAmount, double learningRate, double bias, IActivation activation = null)
         {
              _activation = activation ?? new Sigmoid();
             _learningRate = learningRate;
             _bias = bias;
+            _optimizer = new SGD();
             InitializeNodes(nodesAmount);
         }
 
@@ -30,7 +33,7 @@ namespace NeuralNetwork
             _nodes.Clear();
             for (int index = 0; index < amount; index++)
             {
-                _nodes.Add(new NeuralNode(_activation));
+                _nodes.Add(new NeuralNode(_activation, _optimizer));
                 _biasWeight.Add(MyRandom.NextXavier(1, 0.5, amount));
             }
         }
@@ -48,7 +51,7 @@ namespace NeuralNetwork
         public void AddNode(NeuralNode node)
         {
             _nodes.Add(node);
-            _biasWeight.Add(MyRandom.NextXavier(1, 0.5, NodeAmount+1));
+            _biasWeight.Add(MyRandom.NextXavier(1, 0.5, NodeAmount + 1));
         }
 
         //計算整層的FeedForward
@@ -65,7 +68,15 @@ namespace NeuralNetwork
                 _nodes[nodeIndex].Output = result[nodeIndex];
         }
 
-
+        //設置優化器
+        public void SetOptimizer(IOptimizer optimizer)
+        {
+            _optimizer = optimizer.Copy();
+            foreach (NeuralNode node in _nodes)
+            {
+                node.SetOptimizer(optimizer);
+            }
+        }
 
         //計算輸入整層的FeedForward
         public void CalculateFeedForward(List<double> inputs)
@@ -108,8 +119,8 @@ namespace NeuralNetwork
                 throw new Exception("計算出的delta量應該要和此層node數量相同");
             for (int deltaIndex = 0; deltaIndex < thisDeltas.Count(); deltaIndex++)
             {
-                double result = (thisDeltas[deltaIndex] * _bias);
-                _biasWeight[deltaIndex] -= _learningRate * result;
+                double gradient = (thisDeltas[deltaIndex] * _bias);
+                _biasWeight[deltaIndex] -= _optimizer.GetResult(gradient, _learningRate);
             }
         }
 
@@ -173,6 +184,7 @@ namespace NeuralNetwork
         {
             NeuralLayer outputLayer = new NeuralLayer(NodeAmount, _learningRate, _bias, _activation);
             outputLayer._activation = _activation.Copy();
+            outputLayer._optimizer = _optimizer.Copy();
             outputLayer._nodes.Clear();
             foreach (NeuralNode node in _nodes)
             {

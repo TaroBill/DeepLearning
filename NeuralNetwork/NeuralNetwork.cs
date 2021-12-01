@@ -1,5 +1,6 @@
 ﻿using NeuralNetwork.ActivationFunction;
 using NeuralNetwork.LossFunction;
+using NeuralNetwork.Optimizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace NeuralNetwork
         private List<List<double>> _realResult;
         private readonly Random _random = new Random();
         private ILossFunction _lossFunction;
+        private IOptimizer _optimizer;
         private double _loss;
         private int _batch = 1;
 
@@ -24,6 +26,7 @@ namespace NeuralNetwork
             _neuralLayers = new List<NeuralLayer>();
             _inputs = inputs;
             _realResult = realResults;
+            _optimizer = new SGD();
         }
 
         public NeuralNetwork(ILossFunction lossFunction = null)
@@ -102,6 +105,16 @@ namespace NeuralNetwork
             _lossFunction = lossFunction;
         }
 
+        //設置lossFunction
+        public void SetOptimizer(IOptimizer optimizer)
+        {
+            _optimizer = optimizer.Copy();
+            foreach (NeuralLayer layer in _neuralLayers)
+            {
+                layer.SetOptimizer(optimizer);
+            }
+        }
+
         //輸出誤差值
         public double Loss()
         {
@@ -137,6 +150,7 @@ namespace NeuralNetwork
         {
             NeuralNetwork outputNetwork = new NeuralNetwork(_inputs, _realResult);
             outputNetwork._lossFunction = _lossFunction.Copy();
+            outputNetwork._optimizer = _optimizer.Copy();
             foreach (NeuralLayer layer in _neuralLayers)
             {
                 outputNetwork.AddNeuralLayer(layer.Copy());

@@ -68,6 +68,11 @@
     <Compile Include="NeuralLayer.cs" />
     <Compile Include="NeuralNetwork.cs" />
     <Compile Include="NeuralNode.cs" />
+    <Compile Include="Optimizer\AdaGrad.cs" />
+    <Compile Include="Optimizer\IOptimizer.cs" />
+    <Compile Include="Optimizer\Momentum.cs" />
+    <Compile Include="Optimizer\RMSprop.cs" />
+    <Compile Include="Optimizer\SGD.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DisplayForm.resx">
@@ -96,8 +101,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Optimizer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
