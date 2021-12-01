@@ -23,5 +23,11 @@ namespace NeuralNetwork.LossFunction
             double result = (0 - target) / (output * Math.Log(2, Math.E));
             return result;
         }
+
+        //複製
+        public ILossFunction Copy()
+        {
+            return new CrossEntropy();
+        }
     }
 }

@@ -16,5 +16,8 @@ namespace NeuralNetwork.ActivationFunction
 
         //對激勵函式微分
         double PartialDerivativeActivationFunction(double net, double output);
+
+        //複製
+        IActivation Copy();
     }
 }

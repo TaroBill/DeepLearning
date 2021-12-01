@@ -41,5 +41,13 @@ namespace NeuralNetwork.ActivationFunction
         {
             return Math.Exp(net) / ((_totalExponentialValue - net) + Math.Exp(net) * Math.Exp(net));
         }
+
+        //複製
+        public IActivation Copy()
+        {
+            Softmax softmax = new Softmax();
+            softmax._totalExponentialValue = _totalExponentialValue;
+            return softmax;
+        }
     }
 }

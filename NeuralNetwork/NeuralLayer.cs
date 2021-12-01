@@ -18,7 +18,7 @@ namespace NeuralNetwork
 
         public NeuralLayer(int nodesAmount, double learningRate, double bias, IActivation activation = null)
         {
-             _activation = activation ?? new Logistic();
+             _activation = activation ?? new Sigmoid();
             _learningRate = learningRate;
             _bias = bias;
             InitializeNodes(nodesAmount);
@@ -172,6 +172,7 @@ namespace NeuralNetwork
         public NeuralLayer Copy()
         {
             NeuralLayer outputLayer = new NeuralLayer(NodeAmount, _learningRate, _bias, _activation);
+            outputLayer._activation = _activation.Copy();
             outputLayer._nodes.Clear();
             foreach (NeuralNode node in _nodes)
             {

@@ -38,6 +38,13 @@ namespace NeuralNetwork
             this._printWeightButton = new System.Windows.Forms.Button();
             this._layerLabel = new System.Windows.Forms.Label();
             this._layerIndexTextBox = new System.Windows.Forms.TextBox();
+            this._inputTextBox1 = new System.Windows.Forms.TextBox();
+            this._inputTextBox2 = new System.Windows.Forms.TextBox();
+            this._ResultTextBox = new System.Windows.Forms.TextBox();
+            this._addTrainDataButton = new System.Windows.Forms.Button();
+            this._inputsTrainDataLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this._expectOutputLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // _trainButton
@@ -77,9 +84,10 @@ namespace NeuralNetwork
             // 
             // _resultLabel
             // 
+            this._resultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._resultLabel.AutoSize = true;
             this._resultLabel.Font = new System.Drawing.Font("新細明體", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this._resultLabel.Location = new System.Drawing.Point(546, 128);
+            this._resultLabel.Location = new System.Drawing.Point(659, 125);
             this._resultLabel.Name = "_resultLabel";
             this._resultLabel.Size = new System.Drawing.Size(0, 27);
             this._resultLabel.TabIndex = 3;
@@ -127,14 +135,87 @@ namespace NeuralNetwork
             this._layerIndexTextBox.Size = new System.Drawing.Size(100, 22);
             this._layerIndexTextBox.TabIndex = 7;
             // 
+            // _inputTextBox1
+            // 
+            this._inputTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._inputTextBox1.Location = new System.Drawing.Point(514, 354);
+            this._inputTextBox1.Name = "_inputTextBox1";
+            this._inputTextBox1.Size = new System.Drawing.Size(111, 22);
+            this._inputTextBox1.TabIndex = 9;
+            // 
+            // _inputTextBox2
+            // 
+            this._inputTextBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._inputTextBox2.Location = new System.Drawing.Point(514, 382);
+            this._inputTextBox2.Name = "_inputTextBox2";
+            this._inputTextBox2.Size = new System.Drawing.Size(111, 22);
+            this._inputTextBox2.TabIndex = 9;
+            // 
+            // _ResultTextBox
+            // 
+            this._ResultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._ResultTextBox.Location = new System.Drawing.Point(664, 354);
+            this._ResultTextBox.Name = "_ResultTextBox";
+            this._ResultTextBox.Size = new System.Drawing.Size(119, 22);
+            this._ResultTextBox.TabIndex = 9;
+            // 
+            // _addTrainDataButton
+            // 
+            this._addTrainDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._addTrainDataButton.Location = new System.Drawing.Point(664, 382);
+            this._addTrainDataButton.Name = "_addTrainDataButton";
+            this._addTrainDataButton.Size = new System.Drawing.Size(119, 23);
+            this._addTrainDataButton.TabIndex = 10;
+            this._addTrainDataButton.Text = "加入訓練資料按鈕";
+            this._addTrainDataButton.UseVisualStyleBackColor = true;
+            this._addTrainDataButton.Click += new System.EventHandler(this.ClickAddTrainDataButton);
+            // 
+            // _inputsTrainDataLabel
+            // 
+            this._inputsTrainDataLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._inputsTrainDataLabel.AutoSize = true;
+            this._inputsTrainDataLabel.Font = new System.Drawing.Font("新細明體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this._inputsTrainDataLabel.Location = new System.Drawing.Point(510, 312);
+            this._inputsTrainDataLabel.Name = "_inputsTrainDataLabel";
+            this._inputsTrainDataLabel.Size = new System.Drawing.Size(142, 19);
+            this._inputsTrainDataLabel.TabIndex = 5;
+            this._inputsTrainDataLabel.Text = "加入訓練資料集";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("新細明體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label3.Location = new System.Drawing.Point(660, 312);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(123, 19);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "加入輸出結果";
+            // 
+            // _expectOutputLabel
+            // 
+            this._expectOutputLabel.AutoSize = true;
+            this._expectOutputLabel.Font = new System.Drawing.Font("新細明體", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this._expectOutputLabel.Location = new System.Drawing.Point(369, 126);
+            this._expectOutputLabel.Name = "_expectOutputLabel";
+            this._expectOutputLabel.Size = new System.Drawing.Size(0, 27);
+            this._expectOutputLabel.TabIndex = 11;
+            // 
             // DisplayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(966, 485);
+            this.Controls.Add(this._expectOutputLabel);
+            this.Controls.Add(this._addTrainDataButton);
+            this.Controls.Add(this._ResultTextBox);
+            this.Controls.Add(this._inputTextBox2);
+            this.Controls.Add(this._inputTextBox1);
             this.Controls.Add(this._layerLabel);
             this.Controls.Add(this._layerIndexTextBox);
             this.Controls.Add(this._printWeightButton);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this._inputsTrainDataLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this._trainTimesTextBox);
             this.Controls.Add(this._resultLabel);
@@ -159,6 +240,13 @@ namespace NeuralNetwork
         private System.Windows.Forms.Button _printWeightButton;
         private System.Windows.Forms.Label _layerLabel;
         private System.Windows.Forms.TextBox _layerIndexTextBox;
+        private System.Windows.Forms.TextBox _inputTextBox1;
+        private System.Windows.Forms.TextBox _inputTextBox2;
+        private System.Windows.Forms.TextBox _ResultTextBox;
+        private System.Windows.Forms.Button _addTrainDataButton;
+        private System.Windows.Forms.Label _inputsTrainDataLabel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label _expectOutputLabel;
     }
 }
 

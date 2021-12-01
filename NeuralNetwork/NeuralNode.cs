@@ -83,7 +83,7 @@ namespace NeuralNetwork
         //複製此node
         public NeuralNode Copy()
         {
-            NeuralNode neuralNode = new NeuralNode(_activationFunction);
+            NeuralNode neuralNode = new NeuralNode(_activationFunction.Copy());
             neuralNode.Output = _output;
             neuralNode._net = _net;
             neuralNode.OutputWeight = _outputWeight.ToList();

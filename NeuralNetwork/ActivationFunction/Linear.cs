@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork.ActivationFunction
 {
-    public class Logistic : IActivation
+    public class Linear : IActivation
     {
-        //logistc Function
+        //激勵函式
         public double ActivationFunction(double net)
         {
-            return 1.0 / (1 + Math.Exp(0 - net));
+            return net;
         }
 
         //不實作
@@ -20,10 +20,16 @@ namespace NeuralNetwork.ActivationFunction
             return net;
         }
 
-        //logistc Function對net偏微分
+        //激勵函式偏微分
         public double PartialDerivativeActivationFunction(double net, double output)
         {
-            return output * (1 - output);
+            return 1;
+        }
+
+        //複製
+        public IActivation Copy()
+        {
+            return new Linear();
         }
     }
 }

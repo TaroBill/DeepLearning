@@ -22,5 +22,11 @@ namespace NeuralNetwork.LossFunction
         {
             return 0 - (target - output);
         }
+
+        //複製
+        public ILossFunction Copy()
+        {
+            return new SquaredError();
+        }
     }
 }

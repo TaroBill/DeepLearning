@@ -45,11 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\專題用\QLearning\TEST\Model\LossFunction\DQNLossFunction.cs">
+      <Link>LossFunction\DQNLossFunction.cs</Link>
+    </Compile>
     <Compile Include="ActivationFunction\IActivation.cs" />
     <Compile Include="ActivationFunction\LeakyRelu.cs" />
-    <Compile Include="ActivationFunction\Logistic.cs" />
+    <Compile Include="ActivationFunction\Linear.cs" />
+    <Compile Include="ActivationFunction\Sigmoid.cs" />
     <Compile Include="ActivationFunction\Relu.cs" />
     <Compile Include="ActivationFunction\Softmax.cs" />
+    <Compile Include="ActivationFunction\Tanh.cs" />
     <Compile Include="DisplayForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +64,7 @@
     <Compile Include="DisplayFormPM.cs" />
     <Compile Include="LossFunction\CrossEntropy.cs" />
     <Compile Include="LossFunction\ILossFunction.cs" />
+    <Compile Include="LossFunction\MeanError.cs" />
     <Compile Include="LossFunction\MeanSquareError.cs" />
     <Compile Include="LossFunction\SquaredError.cs" />
     <Compile Include="MyRandom.cs" />
@@ -79,6 +85,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -91,6 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Optimizer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

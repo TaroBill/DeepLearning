@@ -19,14 +19,25 @@ namespace NeuralNetwork
             _displayFormPM = displayFormPM;
             _trainTimesTextBox.KeyPress += PressKeyInNumberOnlyTextBox;
             _layerIndexTextBox.KeyPress += PressKeyInNumberOnlyTextBox;
+            _inputTextBox1.KeyPress += PressKeyInNumberOnlyTextBox;
+            _inputTextBox2.KeyPress += PressKeyInNumberOnlyTextBox;
+            _ResultTextBox.KeyPress += PressKeyInNumberOnlyTextBox;
             _displayFormPM.LabelChangedEnable += UpdateLabel;
             _printWeightButton.Click += ClickPrintWeightButton;
+            _displayFormPM.InputDataChangedEnable += UpdateComboBox;
+        }
+        
+        //更新可以選擇的comboBox
+        private void UpdateComboBox()
+        {
+            _inputComboBox.DataSource = _displayFormPM.GetInputs();
         }
 
         //更新label
         public void UpdateLabel()
         {
             _resultLabel.Text = _displayFormPM.OutputLabel;
+            _expectOutputLabel.Text = _displayFormPM.ExpectOutputLabel;
             _trainButton.Enabled = _displayFormPM.StartTrainButtonEnable;
         }
 
@@ -55,6 +66,15 @@ namespace NeuralNetwork
         private void SelectedIndexChangedInputComboBox(object sender, EventArgs e)
         {
             _displayFormPM.GetResult(_inputComboBox.SelectedIndex);
+        }
+
+        //當按下增加訓練及內容
+        private void ClickAddTrainDataButton(object sender, EventArgs e)
+        {
+            Double.TryParse(_inputTextBox1.Text, out double inputDouble1);
+            Double.TryParse(_inputTextBox2.Text, out double inputDouble2);
+            Double.TryParse(_ResultTextBox.Text, out double resultDouble);
+            _displayFormPM.AddTrainData(new List<double>() { inputDouble1, inputDouble2 }, new List<double>() { resultDouble });
         }
     }
 }

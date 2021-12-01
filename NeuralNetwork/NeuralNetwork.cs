@@ -15,6 +15,8 @@ namespace NeuralNetwork
         private List<List<double>> _realResult;
         private readonly Random _random = new Random();
         private ILossFunction _lossFunction;
+        private double _loss;
+        private int _batch = 1;
 
         public NeuralNetwork(List<List<double>> inputs, List<List<double>> realResults)
         {
@@ -54,7 +56,7 @@ namespace NeuralNetwork
             {
                 int randomChoose = _random.Next(0, _inputs.Count());
                 CalculateResult(_inputs[randomChoose]);
-                _lossFunction.LossFunction(_realResult[randomChoose], _neuralLayers[_neuralLayers.Count() - 1].GetOutput());
+                _loss = _lossFunction.LossFunction(_realResult[randomChoose], _neuralLayers[_neuralLayers.Count() - 1].GetOutput());
                 Backpropagation(_realResult[randomChoose]);
             }
         }
@@ -100,6 +102,21 @@ namespace NeuralNetwork
             _lossFunction = lossFunction;
         }
 
+        //輸出誤差值
+        public double Loss()
+        {
+            double totalLoss = 0;
+            if (_inputs.Count != _realResult.Count)
+                throw new Exception("實際值總數與輸入總數不相同");
+            for (int index = 0; index < _inputs.Count(); index++)
+            {
+                CalculateResult(_inputs[index]);
+                totalLoss += _lossFunction.LossFunction(_realResult[index], _neuralLayers[_neuralLayers.Count() - 1].GetOutput());
+            }
+            totalLoss /= _inputs.Count();
+            return totalLoss;
+        }
+
         //印出該層的所有weight
         public void PrintWeights(int layerIndex)
         {
@@ -119,6 +136,7 @@ namespace NeuralNetwork
         public NeuralNetwork Copy()
         {
             NeuralNetwork outputNetwork = new NeuralNetwork(_inputs, _realResult);
+            outputNetwork._lossFunction = _lossFunction.Copy();
             foreach (NeuralLayer layer in _neuralLayers)
             {
                 outputNetwork.AddNeuralLayer(layer.Copy());

@@ -8,10 +8,15 @@ namespace NeuralNetwork.ActivationFunction
 {
     public class LeakyRelu : IActivation
     {
+        double _linearConstant;
+        public LeakyRelu(double linearConstant = 0.1)
+        {
+            _linearConstant = linearConstant;
+        }
         //Relu
         public double ActivationFunction(double net)
         {
-            return net > 0 ? net : 0.1 * net;
+            return net > 0 ? net : _linearConstant * net;
         }
 
         //不實作
@@ -23,7 +28,13 @@ namespace NeuralNetwork.ActivationFunction
         //Relu對輸出做偏微分
         public double PartialDerivativeActivationFunction(double net, double output)
         {
-            return net > 0 ? 1 : 0.1;
+            return net > 0 ? 1 : _linearConstant;
+        }
+
+        //複製
+        public IActivation Copy()
+        {
+            return new LeakyRelu(_linearConstant);
         }
     }
 }

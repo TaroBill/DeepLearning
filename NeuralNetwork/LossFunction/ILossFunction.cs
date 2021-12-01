@@ -13,5 +13,8 @@ namespace NeuralNetwork.LossFunction
 
         //損失函式對輸出偏微分
         double PartialDerivativeLossFunction(double target, double output);
+
+        //複製
+        ILossFunction Copy();
     }
 }

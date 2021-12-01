@@ -6,30 +6,31 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork.LossFunction
 {
-    public class MeanSquareError : ILossFunction
+    public class MeanError : ILossFunction
     {
-        private double _totalOutput;
 
-        //均方誤差(Mean square error，MSE)
+        private double _totalOutput;
+        //lossfunction
         public double LossFunction(List<double> target, List<double> output)
         {
             double result = 0;
             _totalOutput = target.Count();
             for (int index = 0; index < target.Count(); index++)
-                result += (1.0 / target.Count()) * (target[index] - output[index]) * (target[index] - output[index]);
-            return result;
+                result += Math.Abs(target[index] - output[index]);
+            return (1.0 / target.Count()) * result;
         }
 
-        //均方誤差對輸出偏微分
+        //lossfunction偏微分
         public double PartialDerivativeLossFunction(double target, double output)
         {
-            return 0 - (2.0 / _totalOutput) * (target - output);
+            double outputValue = (-1.0 / _totalOutput) * (Math.Abs(target - output) / (target - output));
+            return outputValue;
         }
 
         //複製
         public ILossFunction Copy()
         {
-            MeanSquareError mean = new MeanSquareError();
+            MeanError mean = new MeanError();
             mean._totalOutput = _totalOutput;
             return mean;
         }
