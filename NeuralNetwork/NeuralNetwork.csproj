@@ -45,9 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\專題用\QLearning\TEST\Model\LossFunction\DQNLossFunction.cs">
-      <Link>LossFunction\DQNLossFunction.cs</Link>
-    </Compile>
     <Compile Include="ActivationFunction\IActivation.cs" />
     <Compile Include="ActivationFunction\LeakyRelu.cs" />
     <Compile Include="ActivationFunction\Linear.cs" />

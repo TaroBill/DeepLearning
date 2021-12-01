@@ -25,32 +25,32 @@ namespace NeuralNetwork.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            _layer1Node1 = new NeuralNode(new Logistic());
+            _layer1Node1 = new NeuralNode(new Sigmoid());
             _layer1Node1.LoadWeights(new List<double>() { 0.1, 0.2});
             _layer1Node1.Output = 0.5;
             _layer1Node1.AddTotalDeltaWeight(0.5, 0);
 
-            _layer1Node2 = new NeuralNode(new Logistic());
+            _layer1Node2 = new NeuralNode(new Sigmoid());
             _layer1Node2.LoadWeights(new List<double>() { 0.3, 0.4 });
             _layer1Node2.Output = 0.4;
             _layer1Node2.AddTotalDeltaWeight(0.4, 0);
 
-            _layer1 = new NeuralLayer(0, 0.1, 0.8, new Logistic());
+            _layer1 = new NeuralLayer(0, 0.1, 0.8, new Sigmoid());
             _layer1.AddNode(_layer1Node1);
             _layer1.AddNode(_layer1Node2);
             _layer1.InitBiasWeight(new List<double>() { 0.5, 0.5});
 
-            _layer2Node1 = new NeuralNode(new Logistic());
+            _layer2Node1 = new NeuralNode(new Sigmoid());
             _layer2Node1.LoadWeights(new List<double>() { 0.3, 0.4 });
             _layer2Node1.Output = 0.4;
             _layer2Node1.AddTotalDeltaWeight(0.5, 0);
 
-            _layer2Node2 = new NeuralNode(new Logistic());
+            _layer2Node2 = new NeuralNode(new Sigmoid());
             _layer2Node2.LoadWeights(new List<double>() { 0.3, 0.4 });
             _layer2Node2.Output = 0.4;
             _layer2Node2.AddTotalDeltaWeight(0.4, 0);
 
-            _layer2 = new NeuralLayer(0, 0.1, 0.8, new Logistic());
+            _layer2 = new NeuralLayer(0, 0.1, 0.8, new Sigmoid());
             _layer2.AddNode(_layer2Node1);
             _layer2.AddNode(_layer2Node2);
             _layer2.InitBiasWeight(new List<double>() { 0.5, 0.5 });
@@ -91,7 +91,7 @@ namespace NeuralNetwork.Tests
         public void AddNodeTest()
         {
             Assert.IsTrue(_layer1.NodeAmount == 2);
-            _layer1.AddNode(new NeuralNode(new Logistic()));
+            _layer1.AddNode(new NeuralNode(new Sigmoid()));
             Assert.IsTrue(_layer1.NodeAmount == 3);
         }
 

@@ -96,7 +96,7 @@ namespace NeuralNetwork
         private void InitXorNeuralNetwork()
         {
             
-            /*List<List<double>> xorInputs = new List<List<double>>();
+            List<List<double>> xorInputs = new List<List<double>>();
             xorInputs.Add(new List<double>() { 0, 0 });
             xorInputs.Add(new List<double>() { 0, 1 });
             xorInputs.Add(new List<double>() { 1, 0 });
@@ -108,10 +108,10 @@ namespace NeuralNetwork
             xorRealResult.Add(new List<double>() { -1 });
             xorRealResult.Add(new List<double>() { -1 });
             xorRealResult.Add(new List<double>() { 0 });
-            _realResults = xorRealResult;*/
+            _realResults = xorRealResult;
             
             
-            List<List<double>> inputs = new List<List<double>>();
+            /*List<List<double>> inputs = new List<List<double>>();
             List<List<double>> realResults = new List<List<double>>();
             for (int index = 0; index < 50; index++)
             {
@@ -133,7 +133,7 @@ namespace NeuralNetwork
                 realResults.Add(realResult);
             }
             _inputs = Normalize(inputs);
-            _realResults = realResults;
+            _realResults = realResults;*/
 
             /*xorRealResult.Add(new List<double>() { 1, 0 });
             xorRealResult.Add(new List<double>() { 0, 1 });
@@ -149,10 +149,10 @@ namespace NeuralNetwork
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Softmax()));
             _neuralNetwork.SetLossFunction(new MeanSquareError());*/
 
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(3, 0.0025, 0.1, new Relu()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(20, 0.0025, 0.1, new Relu()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(20, 0.0025, 0.1, new Relu()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(1, 0.0025, 0.1, new Tanh()));
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.0025, 1, new Relu()));
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(20, 0.0025, 1, new Relu()));
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(20, 0.0025, 1, new Relu()));
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(1, 0.0025, 1, new Tanh()));
             _neuralNetwork.SetLossFunction(new MeanSquareError());
 
             /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.46));
