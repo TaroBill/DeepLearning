@@ -16,6 +16,7 @@ namespace NeuralNetwork
         private double _totalDeltaWeight;
         private readonly IActivation _activationFunction;
         private IOptimizer _optimizer;
+        private List<double> _batchs;
 
         public NeuralNode(IActivation activationFunction, IOptimizer optimizer)
         {
@@ -23,6 +24,7 @@ namespace NeuralNetwork
             _totalDeltaWeight = 0;
             _outputWeight = new List<double>();
             _activationFunction = activationFunction;
+            _batchs = new List<double>();
             _optimizer = optimizer.Copy();
         }
 
@@ -33,6 +35,7 @@ namespace NeuralNetwork
             for (int index = 0; index < amount; index++)
             {
                 _outputWeight.Add(MyRandom.NextXavier(0, 0.3, amount));
+                _batchs.Add(0);
             }
         }
 
@@ -50,6 +53,7 @@ namespace NeuralNetwork
         public void AddNewNodeWeight()
         {
             _outputWeight.Add(MyRandom.NextXavier(0, 0.3, _outputWeight.Count()+1));
+            _batchs.Add(0);
         }
 
         //對該節點進行Logistic運算(中間層)
@@ -63,6 +67,21 @@ namespace NeuralNetwork
             _output = _activationFunction.ActivationFunction(net);
             return _output;
         }
+        /*
+        //利用delta設定該節點到輸出的權重
+        public void SetWeight(int outputNodeIndex, int batchTimes)
+        {
+            _outputWeight[outputNodeIndex] -= _batchs[outputNodeIndex] / batchTimes;
+            _batchs[outputNodeIndex] = 0;
+        }
+
+        //儲存預計要變更的權重
+        public void StoreWeight(double delta, int outputNodeIndex, double learningRate = 0.01)
+        {
+            double gradient = (delta * _output);
+            _batchs[outputNodeIndex] += (_outputWeight[outputNodeIndex] - _optimizer.GetResult(gradient, learningRate));
+        }
+        */
 
         //利用delta設定該節點到輸出的權重
         public void SetWeight(double delta, int outputNodeIndex, double learningRate = 0.01)

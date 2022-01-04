@@ -15,6 +15,9 @@ namespace NeuralNetwork
         private readonly double _bias;
         private List<double> _biasWeight = new List<double>();
         private readonly double _learningRate;
+        private readonly int _batchs;
+        private int _stepToBatch = 0;
+        private List<double> _biasBatchs;
         private IActivation _activation;
         private IOptimizer _optimizer;
 
@@ -69,7 +72,7 @@ namespace NeuralNetwork
         }
 
         //設置優化器
-        public void SetOptimizer(IOptimizer optimizer)
+        internal void SetOptimizer(IOptimizer optimizer)
         {
             _optimizer = optimizer.Copy();
             foreach (NeuralNode node in _nodes)

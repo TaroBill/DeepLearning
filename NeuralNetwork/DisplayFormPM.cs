@@ -1,12 +1,9 @@
-﻿using NeuralNetwork.ActivationFunction;
-using NeuralNetwork.LossFunction;
-using NeuralNetwork.Optimizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using Tensorflow;
+using Tensorflow.NumPy;
+using static Tensorflow.Binding;
+using static Tensorflow.KerasApi;
 namespace NeuralNetwork
 {
     public class DisplayFormPM
@@ -35,9 +32,41 @@ namespace NeuralNetwork
             InputDataChangedEnable?.Invoke();
         }
 
-        private NeuralNetwork _neuralNetwork;
-        private List<List<double>> _inputs;
-        private List<List<double>> _realResults;
+        //private NeuralNetwork _neuralNetwork;
+        //private List<List<double>> _inputs;
+        //private List<List<double>> _realResults;
+
+        private NDArray _input = new double[,]
+        {
+            {0, 0 },
+            {0, 1 },
+            {1, 0 },
+            {1, 1 }
+        };
+
+        private NDArray _realResult = new double[,]
+        {
+            {1, 0 },
+            {0, 1 },
+            {0, 1 },
+            {1, 0 }
+        };
+
+        private (Operation, Tensor, Tensor, Tensor) MakeGraph(Tensor features, Tensor labels, int num_hidden = 8)
+        {
+
+            var hidenLayer = keras.layers.dense(features, 8, activation: keras.activations.Relu);
+            var hidenLayer2 = keras.layers.dense(hidenLayer, 8, activation: keras.activations.Relu);
+            var outputLayer = keras.layers.dense(hidenLayer2, 2);
+
+            var predictions = tf.tanh(tf.squeeze(outputLayer));
+            var loss = tf.reduce_mean(tf.square(predictions - labels), name: "loss");
+
+            var gs = tf.Variable(0, trainable: false, name: "global_step");
+            var optimizer = tf.train.AdamOptimizer(0.02f);
+            var train_op = optimizer.minimize(loss, global_step: gs);
+            return (train_op, loss, gs, predictions);
+        }
 
         public DisplayFormPM()
         {
@@ -48,20 +77,21 @@ namespace NeuralNetwork
         //輸出給comboBox可選清單
         public List<string> GetInputs()
         {
-            List<string> output = new List<string>();
+            /*List<string> output = new List<string>();
             foreach (List<double> input in _inputs)
             {
                 output.Add(input[0].ToString() + " " + input[1].ToString());
             }
-            return output;
+            return output;*/
+            throw new NotImplementedException();
         }
 
         //增加訓練資料
         public void AddTrainData(List<double> input, List<double> result)
         {
-            _inputs.Add(input);
-            _realResults.Add(result);
-            _neuralNetwork.SetTrainData(_inputs, _realResults);
+            //_inputs.Add(input);
+            //_realResults.Add(result);
+            //_neuralNetwork.SetTrainData(_inputs, _realResults);
             NotifyInputsDataChanged();
         }
 
@@ -73,7 +103,7 @@ namespace NeuralNetwork
             List<double> min = new List<double>() { double.MaxValue, double.MaxValue, double.MaxValue };
             foreach (List<double> data in input)
             {
-                for (int index = 0; index < 3; index++)
+                for (int index = 0; index < 2; index++)
                 {
                     if (data[index] > max[index])
                         max[index] = data[index];
@@ -84,7 +114,7 @@ namespace NeuralNetwork
             foreach (List<double> data in input)
             {
                 List<double> outputData = new List<double>();
-                for (int index = 0; index < 3; index++)
+                for (int index = 0; index < 2; index++)
                 {
                     outputData.Add((data[index] - min[index]) / (max[index] - min[index]));
                 }
@@ -96,8 +126,8 @@ namespace NeuralNetwork
         //初始化NeuralNetwork
         private void InitXorNeuralNetwork()
         {
-            
-           /* List<List<double>> xorInputs = new List<List<double>>();
+            /*
+            List<List<double>> xorInputs = new List<List<double>>();
             xorInputs.Add(new List<double>() { 0, 0 });
             xorInputs.Add(new List<double>() { 0, 1 });
             xorInputs.Add(new List<double>() { 1, 0 });
@@ -105,59 +135,14 @@ namespace NeuralNetwork
             _inputs = xorInputs;
 
             List<List<double>> xorRealResult = new List<List<double>>();
-            xorRealResult.Add(new List<double>() { 1 });
+            xorRealResult.Add(new List<double>() { 0 });
             xorRealResult.Add(new List<double>() { -1 });
             xorRealResult.Add(new List<double>() { -1 });
             xorRealResult.Add(new List<double>() { 0 });
             _realResults = xorRealResult;*/
-            
-            
-            List<List<double>> inputs = new List<List<double>>();
-            List<List<double>> realResults = new List<List<double>>();
-            for (int index = 0; index < 50; index++)
-            {
-                Random random = new Random(Guid.NewGuid().GetHashCode());
-                List<double> input = new List<double>()
-                {
-                    random.Next(0, 10),
-                    random.Next(0, 10),
-                    random.Next(0, 4),
-                };
-                int value = random.Next(-1, 1);
-                List<double> realResult = new List<double>()
-                {
-                    value == 0 ? MyRandom.NextGuass(0,0.05) : value
-                };
-                if (inputs.Contains(input))
-                    continue;
-                inputs.Add(input);
-                realResults.Add(realResult);
-            }
-            _inputs = Normalize(inputs);
-            _realResults = realResults;
 
-            /*xorRealResult.Add(new List<double>() { 1, 0 });
-            xorRealResult.Add(new List<double>() { 0, 1 });
-            xorRealResult.Add(new List<double>() { 0, 1 });
-            xorRealResult.Add(new List<double>() { 1, 0 });*/
-            //_realResults = xorRealResult;
-
-            _neuralNetwork = new NeuralNetwork(_inputs, _realResults);
-
-
-            /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Logistic()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Logistic()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Softmax()));
-            _neuralNetwork.SetLossFunction(new MeanSquareError());*/
-
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(3, 0.01, 1, new LeakyRelu()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(20, 0.01, 1, new LeakyRelu()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(20, 0.01, 1, new LeakyRelu()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(1, 0.01, 1, new Tanh()));
-            _neuralNetwork.SetLossFunction(new MeanSquareError());
-            _neuralNetwork.SetOptimizer(new Momentum(0.9));
-
-            /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.46));
+            /*_neuralNetwork = new NeuralNetwork(_inputs, realResults);
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.46));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(5, 0.1, 0.35));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.18));*/
         }
@@ -166,15 +151,15 @@ namespace NeuralNetwork
         public void StartTrain(int trainTimes)
         {
             StartTrainButtonEnable = false;
-            _neuralNetwork.StartTrain(trainTimes);
-            Console.WriteLine(_neuralNetwork.Loss());
+           /* _neuralNetwork.StartTrain(trainTimes);
+            Console.WriteLine(_neuralNetwork.Loss());*/
             StartTrainButtonEnable = true;
         }
 
         //輸出權重
         public void PrintWeight(int layerIndex)
         {
-            _neuralNetwork.PrintWeights(layerIndex);
+            //_neuralNetwork.PrintWeights(layerIndex);
         }
 
         //取得結果
@@ -182,7 +167,7 @@ namespace NeuralNetwork
         {
             if (input < 0)
                 return;
-            List<double> output =_neuralNetwork.GetResult(_inputs[input]);
+          /*  List<double> output =_neuralNetwork.GetResult(_inputs[input]);
             _outputLabel = "";
             for (int outputIndex = 0; outputIndex < output.Count(); outputIndex++)
             {
@@ -194,7 +179,7 @@ namespace NeuralNetwork
             {
                 _expectOutputLabel += realResult.ToString();
                 _expectOutputLabel += "\n";
-            }
+            }*/
             NotifyLabelChanged();
         }
 

@@ -191,14 +191,24 @@
           <AnalysisFileManager>
             <AnalysisFiles>
               <AnalysisFile>
+                <RelativePath>ActivationFunction\BatchNormaliztion.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>ActivationFunction\IActivation.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
-                <RelativePath>ActivationFunction\Logistic.cs</RelativePath>
+                <RelativePath>ActivationFunction\LeakyRelu.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
-                <AnalysisFileType>Model</AnalysisFileType>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>ActivationFunction\Linear.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>ActivationFunction\Relu.cs</RelativePath>
@@ -206,9 +216,19 @@
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>ActivationFunction\Sigmoid.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>ActivationFunction\Softmax.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>ActivationFunction\Tanh.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>DisplayForm.cs</RelativePath>
@@ -231,19 +251,34 @@
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>..\..\QLearning\TEST\Model\LossFunction\DQNLossFunction.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>LossFunction\ILossFunction.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
-                <RelativePath>LossFunction\MeanSquareError.cs</RelativePath>
+                <RelativePath>LossFunction\MeanError.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>LossFunction\MeanSquareError.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>LossFunction\SquaredError.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>MyRandom.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>NeuralLayer.cs</RelativePath>
@@ -259,6 +294,31 @@
                 <RelativePath>NeuralNode.cs</RelativePath>
                 <ProjectName>NeuralNetwork</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Optimizer\AdaGrad.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Optimizer\IOptimizer.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Optimizer\Momentum.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Optimizer\RMSprop.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Optimizer\SGD.cs</RelativePath>
+                <ProjectName>NeuralNetwork</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Program.cs</RelativePath>
