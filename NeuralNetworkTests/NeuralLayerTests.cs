@@ -2,6 +2,7 @@
 using NeuralNetwork;
 using NeuralNetwork.ActivationFunction;
 using NeuralNetwork.LossFunction;
+using NeuralNetwork.Optimizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +26,12 @@ namespace NeuralNetwork.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            _layer1Node1 = new NeuralNode(new Sigmoid());
+            _layer1Node1 = new NeuralNode(new Sigmoid(), new SGD());
             _layer1Node1.LoadWeights(new List<double>() { 0.1, 0.2});
             _layer1Node1.Output = 0.5;
             _layer1Node1.AddTotalDeltaWeight(0.5, 0);
 
-            _layer1Node2 = new NeuralNode(new Sigmoid());
+            _layer1Node2 = new NeuralNode(new Sigmoid(), new SGD());
             _layer1Node2.LoadWeights(new List<double>() { 0.3, 0.4 });
             _layer1Node2.Output = 0.4;
             _layer1Node2.AddTotalDeltaWeight(0.4, 0);
@@ -40,12 +41,12 @@ namespace NeuralNetwork.Tests
             _layer1.AddNode(_layer1Node2);
             _layer1.InitBiasWeight(new List<double>() { 0.5, 0.5});
 
-            _layer2Node1 = new NeuralNode(new Sigmoid());
+            _layer2Node1 = new NeuralNode(new Sigmoid(), new SGD());
             _layer2Node1.LoadWeights(new List<double>() { 0.3, 0.4 });
             _layer2Node1.Output = 0.4;
             _layer2Node1.AddTotalDeltaWeight(0.5, 0);
 
-            _layer2Node2 = new NeuralNode(new Sigmoid());
+            _layer2Node2 = new NeuralNode(new Sigmoid(), new SGD());
             _layer2Node2.LoadWeights(new List<double>() { 0.3, 0.4 });
             _layer2Node2.Output = 0.4;
             _layer2Node2.AddTotalDeltaWeight(0.4, 0);
@@ -80,10 +81,10 @@ namespace NeuralNetwork.Tests
         {
             List<NeuralNode> nodes = (List<NeuralNode>)_layer1PrrivateObject.GetFieldOrProperty("_nodes");
             foreach (NeuralNode node in nodes)
-                Assert.IsTrue(node.OutputWeight.Count() == 2);
+                Assert.IsTrue(node.OutputWeight.Count == 2);
             _layer1.InitWeights(5);
             foreach (NeuralNode node in nodes)
-                Assert.IsTrue(node.OutputWeight.Count() == 5);
+                Assert.IsTrue(node.OutputWeight.Count == 5);
         }
 
         //測試加入Node
@@ -91,7 +92,7 @@ namespace NeuralNetwork.Tests
         public void AddNodeTest()
         {
             Assert.IsTrue(_layer1.NodeAmount == 2);
-            _layer1.AddNode(new NeuralNode(new Sigmoid()));
+            _layer1.AddNode(new NeuralNode(new Sigmoid(), new SGD()));
             Assert.IsTrue(_layer1.NodeAmount == 3);
         }
 
@@ -210,7 +211,7 @@ namespace NeuralNetwork.Tests
 
             List<double> layerBiasWeights = (List<double>)layerPrivateObject.GetFieldOrProperty("_biasWeight");
             List<double> layer1BiasWeights = (List<double>)layer1PrivateObject.GetFieldOrProperty("_biasWeight");
-            for (int index = 0; index < layerBiasWeights.Count(); index++)
+            for (int index = 0; index < layerBiasWeights.Count; index++)
             {
                 Assert.AreEqual(layerBiasWeights[index], layer1BiasWeights[index], 0.0001);
                 layer1BiasWeights[index] = 1.2;
@@ -219,7 +220,7 @@ namespace NeuralNetwork.Tests
 
             List<NeuralNode> layerNeuralNode = (List<NeuralNode>)layerPrivateObject.GetFieldOrProperty("_nodes");
             List<NeuralNode> layer1NeuralNode = (List<NeuralNode>)layer1PrivateObject.GetFieldOrProperty("_nodes");
-            for (int index = 0; index < layerBiasWeights.Count(); index++)
+            for (int index = 0; index < layerBiasWeights.Count; index++)
             {
                 Assert.AreNotEqual(layerNeuralNode[index], layer1NeuralNode[index]);
             }

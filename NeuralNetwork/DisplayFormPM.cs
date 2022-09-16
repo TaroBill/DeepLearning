@@ -97,7 +97,7 @@ namespace NeuralNetwork
         private void InitXorNeuralNetwork()
         {
             
-           /* List<List<double>> xorInputs = new List<List<double>>();
+           List<List<double>> xorInputs = new List<List<double>>();
             xorInputs.Add(new List<double>() { 0, 0 });
             xorInputs.Add(new List<double>() { 0, 1 });
             xorInputs.Add(new List<double>() { 1, 0 });
@@ -105,14 +105,14 @@ namespace NeuralNetwork
             _inputs = xorInputs;
 
             List<List<double>> xorRealResult = new List<List<double>>();
-            xorRealResult.Add(new List<double>() { 1 });
-            xorRealResult.Add(new List<double>() { -1 });
-            xorRealResult.Add(new List<double>() { -1 });
             xorRealResult.Add(new List<double>() { 0 });
-            _realResults = xorRealResult;*/
+            xorRealResult.Add(new List<double>() { 1 });
+            xorRealResult.Add(new List<double>() { 1 });
+            xorRealResult.Add(new List<double>() { 0 });
+            _realResults = xorRealResult;
             
             
-            List<List<double>> inputs = new List<List<double>>();
+          /*  List<List<double>> inputs = new List<List<double>>();
             List<List<double>> realResults = new List<List<double>>();
             for (int index = 0; index < 50; index++)
             {
@@ -134,7 +134,7 @@ namespace NeuralNetwork
                 realResults.Add(realResult);
             }
             _inputs = Normalize(inputs);
-            _realResults = realResults;
+            _realResults = realResults;*/
 
             /*xorRealResult.Add(new List<double>() { 1, 0 });
             xorRealResult.Add(new List<double>() { 0, 1 });
@@ -144,13 +144,7 @@ namespace NeuralNetwork
 
             _neuralNetwork = new NeuralNetwork(_inputs, _realResults);
 
-
-            /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Logistic()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Logistic()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 1, new Softmax()));
-            _neuralNetwork.SetLossFunction(new MeanSquareError());*/
-
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(3, 0.01, 1, new LeakyRelu()));
+            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.01, 1, new LeakyRelu()));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(20, 0.01, 1, new LeakyRelu()));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(20, 0.01, 1, new LeakyRelu()));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(1, 0.01, 1, new Tanh()));
@@ -184,7 +178,7 @@ namespace NeuralNetwork
                 return;
             List<double> output =_neuralNetwork.GetResult(_inputs[input]);
             _outputLabel = "";
-            for (int outputIndex = 0; outputIndex < output.Count(); outputIndex++)
+            for (int outputIndex = 0; outputIndex < output.Count; outputIndex++)
             {
                 _outputLabel += output[outputIndex].ToString();
                 _outputLabel += "\n";

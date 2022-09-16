@@ -14,10 +14,10 @@ namespace NeuralNetwork.LossFunction
         public double LossFunction(List<double> target, List<double> output)
         {
             double result = 0;
-            _totalOutput = target.Count();
-            for (int index = 0; index < target.Count(); index++)
+            _totalOutput = target.Count;
+            for (int index = 0; index < target.Count; index++)
                 result += Math.Abs(target[index] - output[index]);
-            return (1.0 / target.Count()) * result;
+            return (1.0 / target.Count) * result;
         }
 
         //lossfunction偏微分

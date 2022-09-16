@@ -27,7 +27,10 @@ namespace NeuralNetwork
             InitializeNodes(nodesAmount);
         }
 
-        //初始化節點數
+        /// <summary>
+        /// 初始化節點數
+        /// </summary>
+        /// <param name="amount"></param>
         public void InitializeNodes(int amount)
         {
             _nodes.Clear();
@@ -38,7 +41,10 @@ namespace NeuralNetwork
             }
         }
 
-        //設定輸出的weights數量
+        /// <summary>
+        /// 設定輸出的weights數量
+        /// </summary>
+        /// <param name="amount"></param>
         public void InitWeights(int amount)
         {
             foreach (NeuralNode nodes in _nodes)
@@ -47,28 +53,37 @@ namespace NeuralNetwork
             }
         }
 
-        //加入一個節點到Layer
+        /// <summary>
+        /// 加入一個節點到Layer
+        /// </summary>
+        /// <param name="node"></param>
         public void AddNode(NeuralNode node)
         {
             _nodes.Add(node);
             _biasWeight.Add(MyRandom.NextXavier(1, 0.5, NodeAmount + 1));
         }
 
-        //計算整層的FeedForward
+        /// <summary>
+        /// 計算整層的FeedForward
+        /// </summary>
+        /// <param name="inputLayer"></param>
         public void CalculateFeedForward(NeuralLayer inputLayer)
         {
             List<double> allOutput = new List<double>();
-            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count; nodeIndex++)
             {
                 double outputValue = _nodes[nodeIndex].ActivationFunction(inputLayer._nodes, nodeIndex, _bias, _biasWeight[nodeIndex]);
                 allOutput.Add(outputValue);
             }
             List<double> result = _activation.ActivationFunction(allOutput);
-            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count; nodeIndex++)
                 _nodes[nodeIndex].Output = result[nodeIndex];
         }
 
-        //設置優化器
+        /// <summary>
+        /// 設置優化器
+        /// </summary>
+        /// <param name="optimizer"></param>
         public void SetOptimizer(IOptimizer optimizer)
         {
             _optimizer = optimizer.Copy();
@@ -78,31 +93,42 @@ namespace NeuralNetwork
             }
         }
 
-        //計算輸入整層的FeedForward
+        /// <summary>
+        /// 計算輸入整層的FeedForward
+        /// </summary>
+        /// <param name="inputs"></param>
         public void CalculateFeedForward(List<double> inputs)
         {
-            if (inputs.Count() != _nodes.Count())
+            if (inputs.Count != _nodes.Count)
                 throw new Exception("輸入層與輸入的值個數不同");
-            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count; nodeIndex++)
                 _nodes[nodeIndex].Output = inputs[nodeIndex];
         }
 
-        //取得該層所有節點的輸出
+        /// <summary>
+        /// 取得該層所有節點的輸出
+        /// </summary>
+        /// <returns></returns>
         public List<double> GetOutput()
         {
             List<double> output = new List<double>();
-            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count; nodeIndex++)
                 output.Add(_nodes[nodeIndex].Output);
             return output;
         }
 
-        //使用反向傳播法計算激勵函數，輸出層到內層
+        /// <summary>
+        /// 使用反向傳播法計算激勵函數，輸出層到內層
+        /// </summary>
+        /// <param name="realValue"></param>
+        /// <param name="lossFunction"></param>
+        /// <returns></returns>
         public List<double> Backpropagation(List<double> realValue, ILossFunction lossFunction)
         {
-            if (realValue.Count() < _nodes.Count())
+            if (realValue.Count < _nodes.Count)
                 throw new Exception("實際輸出結果數量要跟輸出節點數量相同");
             List<double> outputDelta = new List<double>();
-            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count; nodeIndex++)
             {
                 double lossPartialDerivative = lossFunction.PartialDerivativeLossFunction(realValue[nodeIndex], _nodes[nodeIndex].Output);
                 double activationPartialDerivative = _activation.PartialDerivativeActivationFunction(_nodes[nodeIndex].Net, _nodes[nodeIndex].Output);
@@ -112,23 +138,29 @@ namespace NeuralNetwork
             return outputDelta;
         }
 
-        //設定此層的bias和bias weight
+        /// <summary>
+        /// 設定此層的bias和bias weight
+        /// </summary>
+        /// <param name="thisDeltas"></param>
         private void SetBiasWeight(List<double> thisDeltas)
         {
-            if (thisDeltas.Count() != _biasWeight.Count())
+            if (thisDeltas.Count != _biasWeight.Count)
                 throw new Exception("計算出的delta量應該要和此層node數量相同");
-            for (int deltaIndex = 0; deltaIndex < thisDeltas.Count(); deltaIndex++)
+            for (int deltaIndex = 0; deltaIndex < thisDeltas.Count; deltaIndex++)
             {
                 double gradient = (thisDeltas[deltaIndex] * _bias);
                 _biasWeight[deltaIndex] -= _optimizer.GetResult(gradient, _learningRate);
             }
         }
 
-        //使用反向傳播法計算激勵函數，隱藏層到輸入層或隱藏層
+        /// <summary>
+        /// 使用反向傳播法計算激勵函數，隱藏層到輸入層或隱藏層
+        /// </summary>
+        /// <returns></returns>
         public List<double> Backpropagation()
         {
             List<double> outputDelta = new List<double>();
-            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count; nodeIndex++)
             {
                 outputDelta.Add(_nodes[nodeIndex].TotalDeltaWeight * _activation.PartialDerivativeActivationFunction(_nodes[nodeIndex].Net, _nodes[nodeIndex].Output));
             }
@@ -136,13 +168,16 @@ namespace NeuralNetwork
             return outputDelta;
         }
 
-        //使用delta來設定Weight(與上面的函式位於不同層)
+        /// <summary>
+        /// 使用delta來設定Weight(與上面的函式位於不同層)
+        /// </summary>
+        /// <param name="deltaValue"></param>
         public void BackpropagationSetWeight(List<double> deltaValue)
         {
-            for (int nodeIndex = 0; nodeIndex < _nodes.Count(); nodeIndex++)
+            for (int nodeIndex = 0; nodeIndex < _nodes.Count; nodeIndex++)
             {
                 _nodes[nodeIndex].ResetTotalDeltaWeight();
-                for (int deltaIndex = 0; deltaIndex < deltaValue.Count(); deltaIndex++)
+                for (int deltaIndex = 0; deltaIndex < deltaValue.Count; deltaIndex++)
                 {
                     _nodes[nodeIndex].AddTotalDeltaWeight(deltaValue[deltaIndex], deltaIndex);
                     _nodes[nodeIndex].SetWeight(deltaValue[deltaIndex], deltaIndex, _learningRate);
@@ -150,7 +185,10 @@ namespace NeuralNetwork
             }
         }
 
-        //取得該層的所有節點的所有weight
+        /// <summary>
+        /// 取得該層的所有節點的所有weight
+        /// </summary>
+        /// <returns></returns>
         public List<List<double>> GetWeights()
         {
             List<List<double>> output = new List<List<double>>();
@@ -161,7 +199,10 @@ namespace NeuralNetwork
             return output;
         }
 
-        //設置bias的weights
+        /// <summary>
+        /// 設置bias的weights
+        /// </summary>
+        /// <param name="biasWeight"></param>
         public void InitBiasWeight(List<double> biasWeight)
         {
             if (biasWeight.Count != this.NodeAmount)
@@ -175,11 +216,14 @@ namespace NeuralNetwork
         {
             get
             {
-                return _nodes.Count();
+                return _nodes.Count;
             }
         }
 
-        //複製此layer
+        /// <summary>
+        /// 複製此layer
+        /// </summary>
+        /// <returns></returns>
         public NeuralLayer Copy()
         {
             NeuralLayer outputLayer = new NeuralLayer(NodeAmount, _learningRate, _bias, _activation);

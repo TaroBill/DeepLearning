@@ -40,7 +40,7 @@ namespace NeuralNetwork
         public void LoadWeights(List<double> weights)
         {
             _outputWeight.Clear();
-            for (int index = 0; index < weights.Count(); index++)
+            for (int index = 0; index < weights.Count; index++)
             {
                 _outputWeight.Add(weights[index]);
             }
@@ -49,7 +49,7 @@ namespace NeuralNetwork
         //增加一個輸出節點
         public void AddNewNodeWeight()
         {
-            _outputWeight.Add(MyRandom.NextXavier(0, 0.3, _outputWeight.Count()+1));
+            _outputWeight.Add(MyRandom.NextXavier(0, 0.3, _outputWeight.Count+1));
         }
 
         //對該節點進行Logistic運算(中間層)

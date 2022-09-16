@@ -8,13 +8,26 @@ namespace NeuralNetwork.LossFunction
 {
     public interface ILossFunction
     {
-        //損失函式
+        /// <summary>
+        /// 損失函式
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="output"></param>
+        /// <returns></returns>
         double LossFunction(List<double> target, List<double> output);
 
-        //損失函式對輸出偏微分
+        /// <summary>
+        /// 損失函式對輸出偏微分
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="output"></param>
+        /// <returns></returns>
         double PartialDerivativeLossFunction(double target, double output);
 
-        //複製
+        /// <summary>
+        /// 複製
+        /// </summary>
+        /// <returns></returns>
         ILossFunction Copy();
     }
 }

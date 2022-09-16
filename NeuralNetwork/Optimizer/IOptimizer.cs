@@ -8,10 +8,18 @@ namespace NeuralNetwork.Optimizer
 {
     public interface IOptimizer
     {
-        //輸入當前梯度取得優化梯度
+        /// <summary>
+        /// 輸入當前梯度取得優化梯度
+        /// </summary>
+        /// <param name="gradient"></param>
+        /// <param name="learningRate"></param>
+        /// <returns></returns>
         double GetResult(double gradient, double learningRate);
 
-        //複製
+        /// <summary>
+        /// 複製
+        /// </summary>
+        /// <returns></returns>
         IOptimizer Copy();
     }
 }

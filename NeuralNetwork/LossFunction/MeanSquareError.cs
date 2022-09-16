@@ -14,9 +14,9 @@ namespace NeuralNetwork.LossFunction
         public double LossFunction(List<double> target, List<double> output)
         {
             double result = 0;
-            _totalOutput = target.Count();
-            for (int index = 0; index < target.Count(); index++)
-                result += (1.0 / target.Count()) * (target[index] - output[index]) * (target[index] - output[index]);
+            _totalOutput = target.Count;
+            for (int index = 0; index < target.Count; index++)
+                result += (1.0 / target.Count) * (target[index] - output[index]) * (target[index] - output[index]);
             return result;
         }
 

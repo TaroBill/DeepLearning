@@ -12,7 +12,7 @@ namespace NeuralNetwork.LossFunction
         public double LossFunction(List<double> target, List<double> output)
         {
             double result = 0;
-            for (int index = 0; index < target.Count(); index++)
+            for (int index = 0; index < target.Count; index++)
                 result += (target[index] * Math.Log(output[index]));
             return 0 - result;
         }
