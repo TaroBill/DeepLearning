@@ -22,6 +22,7 @@ namespace NeuralNetwork
 
         public NeuralNetwork(List<List<double>> inputs, List<List<double>> realResults)
         {
+            TensorFlow.TGr
             _lossFunction =  new SquaredError();
             _neuralLayers = new List<NeuralLayer>();
             _inputs = inputs;
