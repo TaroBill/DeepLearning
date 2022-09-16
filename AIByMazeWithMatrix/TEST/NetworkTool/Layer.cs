@@ -8,7 +8,7 @@ using NetworkTool.Function;
 
 namespace NetworkTool
 {
-    public class Layer
+    public class Layer : ILayer
     {
         protected const double LEARNING_RATE = 0.01;
         protected Matrix<double> _inputs;

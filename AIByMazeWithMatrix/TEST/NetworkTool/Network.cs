@@ -30,7 +30,7 @@ namespace NetworkTool
             _network.Add(_output);//*/
         }
 
-        //TODO
+        //TODO Network Load
         public Network(string data)
         {
             StringBuilder tempLayerData = new StringBuilder();

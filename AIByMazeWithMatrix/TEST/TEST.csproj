@@ -67,10 +67,11 @@
     <Compile Include="NetworkTool\Function\Nope.cs" />
     <Compile Include="NetworkTool\HiddenLayer.cs" />
     <Compile Include="NetworkTool\InputLayer.cs" />
+    <Compile Include="NetworkTool\ILayer.cs" />
+    <Compile Include="NetworkTool\NornalizationGate.cs" />
     <Compile Include="NetworkTool\Layer.cs" />
     <Compile Include="NetworkTool\Matrix.cs" />
     <Compile Include="NetworkTool\Network.cs" />
-    <Compile Include="NetworkTool\Node.cs" />
     <Compile Include="NetworkTool\Optimizer\IOptimizer.cs" />
     <Compile Include="NetworkTool\Optimizer\Momentum.cs" />
     <Compile Include="NetworkTool\Optimizer\Adam.cs" />
