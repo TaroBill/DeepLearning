@@ -191,6 +191,13 @@ namespace TEST
             return data;
         }//*/
 
+        /// <summary>
+        /// 將該位置資料打包
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="previousAct"></param>
+        /// <returns></returns>
         private double[] GetData(int x, int y, int previousAct)
         {
             double[] data = new double[6];
@@ -206,6 +213,13 @@ namespace TEST
             return data;
         }//*/
 
+        /// <summary>
+        /// 判別周圍格子狀態
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="index">相對該位置的座標索引. 0左上1正上2右上3正左4中間5正右6左下7正下8右下</param>
+        /// <returns></returns>
         private int GetGridDataRelatively(int x, int y, int index)
         {
             if (index < 0 || index > 8)
@@ -277,6 +291,12 @@ namespace TEST
             _errorRecord = new List<double>();
             _learningCounter = 0;
             _copyCounter = 0;
+
+            TrainXor xor = new TrainXor();
+            for (int i = 0; i < 1000; i++)
+            {
+                xor.Train();
+            }
         }
 
         private void Updated(double error)
@@ -410,6 +430,7 @@ namespace TEST
 
         public void Update()
         {
+
             if (_copyCounter == COPY_CYCLE)
             {
                 UpdateLearningNetwork();

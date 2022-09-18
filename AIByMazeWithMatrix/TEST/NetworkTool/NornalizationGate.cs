@@ -8,7 +8,7 @@ using NetworkTool.Function;
 
 namespace NetworkTool
 {
-    public class NormalizationGate
+    public class NormalizationGate : ILayer
     {
         private Matrix<double> _inputs;
         private Matrix<double> _convertedInput;
@@ -81,6 +81,28 @@ namespace NetworkTool
             return new Matrix<double>(_outputs);
         }
 
+        /// <summary>
+        /// 將各個Row的數值相加
+        /// </summary>
+        /// <param name="matrix">要加總的矩陣</param>
+        /// <returns></returns>
+        private Matrix<double> SumOfRows(Matrix<double> matrix)
+        {
+            int numberOfRow = matrix.RowCount;
+            return OneMatrix(1, numberOfRow) * matrix;
+        }
+
+        /// <summary>
+        /// 將第一個Row複製數個
+        /// </summary>
+        /// <param name="matrix">要複製的矩陣</param>
+        /// <param name="numberOfRow">要複製的數量</param>
+        /// <returns></returns>
+        private Matrix<double> CloneRow(Matrix<double> matrix,int numberOfRow)
+        {
+            return OneMatrix(numberOfRow, 1) * matrix;
+        }
+
         private Matrix<double> OneMatrix(int numberOfRow, int numberOfColumn)
         {
             Matrix<double> result = new Matrix<double>(numberOfRow, numberOfColumn);
@@ -99,7 +121,7 @@ namespace NetworkTool
             int numberOfData = _inputs.RowCount;
             int numberOfNode = _inputs.ColumnCount;
 
-            _tempAverage = OneMatrix(1, numberOfData) * _inputs * (1.0 / numberOfData);
+            _tempAverage = SumOfRows(_inputs) * (1.0 / numberOfData);
         }
 
         private void CalculateVariance()
@@ -107,8 +129,8 @@ namespace NetworkTool
             int numberOfData = _inputs.RowCount;
             int numberOfNode = _inputs.ColumnCount;
 
-            Matrix<double> calculatedResult = _inputs - (OneMatrix(numberOfData, 1) * _tempAverage);
-            _tempVariance = OneMatrix(1, numberOfData) * calculatedResult.ConvertTo(x => x * x) * (1.0 / numberOfData);
+            Matrix<double> calculatedResult = _inputs - CloneRow(_tempAverage, numberOfData);
+            _tempVariance = SumOfRows(calculatedResult.ConvertTo(x => x * x)) * (1.0 / numberOfData);
         }
 
         private void NormalizeInput()
@@ -116,8 +138,8 @@ namespace NetworkTool
             int numberOfData = _inputs.RowCount;
             int numberOfNode = _inputs.ColumnCount;
 
-            Matrix<double> calculatedResult = _inputs - (OneMatrix(numberOfData, 1) * _tempAverage);
-            _convertedInput = calculatedResult.Joint(OneMatrix(numberOfData, 1) * _tempVariance, (x, y) => (x / Math.Sqrt(y + EPSILON)));
+            Matrix<double> calculatedResult = _inputs - CloneRow(_tempAverage, numberOfData);
+            _convertedInput = calculatedResult.Joint(CloneRow(_tempVariance, numberOfData), (x, y) => (x / Math.Sqrt(y + EPSILON)));
 
         }
 
@@ -126,22 +148,23 @@ namespace NetworkTool
             int numberOfData = _inputs.RowCount;
             int numberOfNode = _inputs.ColumnCount;
 
-            _outputs = _convertedInput.Joint(OneMatrix(numberOfData, 1) * _scale, (x, y) => x * y) + (OneMatrix(numberOfData, 1) * _bias);
+            _outputs = _convertedInput.Joint(CloneRow(_scale, numberOfData), (x, y) => x * y) + CloneRow(_bias, numberOfData);
         }
 
         public virtual Matrix<double> InputError(Matrix<double> errors)
         {
-            throw new NotImplementedException();
-            /*Func<double, double, double> calculateDelta = (output, error) =>
-              {
-                  return _funtion.PartDerivativeActivation(output) * error;
-              };
-            Matrix<double> delta = _outputs.Joint(errors, calculateDelta);
-            
-            Matrix<double> outErrors = delta * _weights;
-            _weights -= LEARNING_RATE * (delta.Transposition() * _inputs);
+            int numberOfData = errors.RowCount;
 
-            return outErrors;//*/
+            Matrix<double> deltaScale = SumOfRows(errors.Joint(_convertedInput, (x, y) => x * y));
+            Matrix<double> deltaBias = SumOfRows(errors);
+            Matrix<double> deltaOutputs = errors.Joint(CloneRow(_scale, numberOfData), (x, y) => x * y);
+
+            Matrix<double> outErrors = numberOfData * deltaOutputs - CloneRow(SumOfRows(deltaOutputs), numberOfData) - _convertedInput.Joint(CloneRow(SumOfRows(deltaOutputs.Joint(_convertedInput, (x, y) => x * y)), numberOfData), (x, y) => x * y);
+            outErrors = outErrors.Joint(CloneRow(_tempVariance, numberOfData), (x, y) => x / (numberOfData * Math.Sqrt(y + EPSILON)));
+
+            _scale -= deltaScale;
+            _bias -= deltaBias;
+            return outErrors;
         }
 
         public override string ToString()

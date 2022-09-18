@@ -15,6 +15,11 @@ namespace NetworkTool
 
         Matrix<double> InputError(Matrix<double> errors);
 
+        void RandomlyInitializeWeights(int seed);
+
+        int GetNumberOfNode();
+
+
     }
 
 }

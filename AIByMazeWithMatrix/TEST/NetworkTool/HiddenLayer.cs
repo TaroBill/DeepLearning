@@ -11,7 +11,8 @@ namespace NetworkTool
     {
         private double bias;
 
-        public HiddenLayer(int numberOfNodes, int numberOfWeightsPerNode) : base(numberOfNodes + 1, numberOfWeightsPerNode)
+        //public HiddenLayer(int numberOfNodes, int numberOfWeightsPerNode) : base(numberOfNodes + 1, numberOfWeightsPerNode)
+        public HiddenLayer(int numberOfNodes, int numberOfWeightsPerNode) : base(numberOfNodes, numberOfWeightsPerNode)
         {
             _funtion = new Function.ReLu();
         }
@@ -29,26 +30,26 @@ namespace NetworkTool
 
             for (int i = 0; i < rowCount; i++)
             {
-                for (int j = 1; j < columnCount; j++)
+                for (int j = 0; j < columnCount; j++)
                 {
                     _weights[i, j] = random.NextDouble();
                 }
             }
         }
 
-        private void SetBias()
+        /*private void SetBias()
         {
             int numberOfRow = _outputs.RowCount;
             for (int i = 0; i < numberOfRow; i++)
             {
                 _outputs[i, 0] = bias;
             }
-        }
+        }//*/
 
         public override Matrix<double> InputData(Matrix<double> data)
         {
             base.InputData(data);
-            SetBias();
+            //SetBias();
 
             return new Matrix<double>(_outputs);
         }

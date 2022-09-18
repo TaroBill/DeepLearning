@@ -10,22 +10,24 @@ namespace NetworkTool
 {
     public class Network
     {
-        List<Layer> _network;
+        List<ILayer> _network;
         InputLayer _input;
         OutputLayer _output;
         Matrix<double> _errors;
 
         public Network(int numberOfInput, int numberOfOutput, int numberOfHiddenLayer, params int[] numberOfHiddenNode)
         {
-            _network = new List<Layer>();
+            _network = new List<ILayer>();
             _input = new InputLayer(numberOfInput);
-            _output = new OutputLayer(numberOfOutput, numberOfHiddenNode.Last() + 1);
+            _output = new OutputLayer(numberOfOutput, numberOfHiddenNode.Last());
             _errors = new Matrix<double>(1, numberOfOutput);
 
             _network.Add(_input);
+            _network.Add(new NormalizationGate(numberOfInput));
             for (int i = 0; i < numberOfHiddenLayer; i++)
             {
                 _network.Add(new HiddenLayer(numberOfHiddenNode[i], _network[i].GetNumberOfNode()));
+                _network.Add(new NormalizationGate(numberOfHiddenNode[i]));
             }
             _network.Add(_output);//*/
         }
@@ -37,7 +39,7 @@ namespace NetworkTool
             string[] values = data.Replace("\r\n", "\n").Split('\n');
             string type = "";
             int counter = 0;
-            _network = new List<Layer>();
+            _network = new List<ILayer>();
             foreach (string layerData in values)
             {
                 if (layerData == "")
@@ -86,7 +88,7 @@ namespace NetworkTool
         public void RandomlyInitializeWeights(int seed)
         {
             Random random = new Random(seed);
-            foreach (Layer layer in _network)
+            foreach (ILayer layer in _network)
             {
                 layer.RandomlyInitializeWeights(random.Next());
             }
@@ -100,20 +102,20 @@ namespace NetworkTool
         public List<Matrix<double>> GetAllNodeValue()
         {
             List<Matrix<double>> values = new List<Matrix<double>>();
-            foreach (Layer layer in _network)
+            /*foreach (ILayer layer in _network)
             {
                 values.Add(layer.GetOutputMatrix());
-            }
+            }//*/
             return values;
         }
 
         public List<Matrix<double>> GetAllNodeWeight()
         {
             List<Matrix<double>> weights = new List<Matrix<double>>();
-            foreach (Layer layer in _network)
+            /*foreach (ILayer layer in _network)
             {
                 weights.Add(layer.GetWeightMatrix());
-            }
+            }//*/
             return weights;
         }
 
@@ -122,7 +124,7 @@ namespace NetworkTool
             //輸入Input
             Matrix<double> tempData = data;
             //計算各節點的值
-            foreach (Layer layer in _network)
+            foreach (ILayer layer in _network)
             {
                 tempData = layer.InputData(tempData);
             }
@@ -183,7 +185,7 @@ namespace NetworkTool
         {
             StringBuilder result = new StringBuilder();
             int index = 0;
-            foreach (Layer layer in _network)
+            foreach (ILayer layer in _network)
             {
                 result.AppendLine($"Layer {index++} {{");
                 result.Append($"{layer}");
