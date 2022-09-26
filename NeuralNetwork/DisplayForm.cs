@@ -50,7 +50,7 @@ namespace NeuralNetwork
             _inputComboBox.Enabled = true;
         }
 
-        //按下訓練按鈕
+        //按下輸出權重按鈕
         private void ClickPrintWeightButton(object sender, EventArgs e)
         {
             _displayFormPM.PrintWeight(Int32.Parse(_layerIndexTextBox.Text));

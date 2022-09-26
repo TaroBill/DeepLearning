@@ -29,5 +29,7 @@ namespace NeuralNetwork.LossFunction
         /// </summary>
         /// <returns></returns>
         ILossFunction Copy();
+
+        string GetName();
     }
 }

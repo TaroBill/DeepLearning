@@ -19,5 +19,10 @@ namespace NeuralNetwork.Optimizer
         {
             return gradient * learningRate;
         }
+
+        public string GetName()
+        {
+            return "SGD";
+        }
     }
 }

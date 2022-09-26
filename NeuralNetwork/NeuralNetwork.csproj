@@ -55,6 +55,7 @@
     <Compile Include="ActivationFunction\Relu.cs" />
     <Compile Include="ActivationFunction\Softmax.cs" />
     <Compile Include="ActivationFunction\Tanh.cs" />
+    <Compile Include="ObjectGeneratorByName.cs" />
     <Compile Include="DisplayForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -49,5 +49,10 @@ namespace NeuralNetwork.ActivationFunction
             softmax._totalExponentialValue = _totalExponentialValue;
             return softmax;
         }
+
+        public string GetName()
+        {
+            return "Softmax";
+        }
     }
 }

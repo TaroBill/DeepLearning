@@ -36,5 +36,10 @@ namespace NeuralNetwork.ActivationFunction
         {
             return new LeakyRelu(_linearConstant);
         }
+
+        public string GetName()
+        {
+            return $"LeakyRelu({_linearConstant})";
+        }
     }
 }

@@ -31,5 +31,10 @@ namespace NeuralNetwork.ActivationFunction
         {
             return new Sigmoid();
         }
+
+        public string GetName()
+        {
+            return "Sigmoid";
+        }
     }
 }

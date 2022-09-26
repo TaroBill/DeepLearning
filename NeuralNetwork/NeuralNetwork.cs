@@ -16,7 +16,6 @@ namespace NeuralNetwork
         private List<List<double>> _realResult;
         private readonly Random _random = new Random();
         private ILossFunction _lossFunction;
-        private IOptimizer _optimizer;
         private double _loss;
         private int _batch = 1;
 
@@ -26,13 +25,56 @@ namespace NeuralNetwork
             _neuralLayers = new List<NeuralLayer>();
             _inputs = inputs;
             _realResult = realResults;
-            _optimizer = new SGD();
         }
 
         public NeuralNetwork(ILossFunction lossFunction = null)
         {
             _lossFunction = new SquaredError() ?? lossFunction;
             _neuralLayers = new List<NeuralLayer>();
+        }
+
+        public NeuralNetwork(string data)
+        {
+            int countOfbracket = 0;
+            int indexOfReadLine = 1;
+            int indexOfStart;
+            int indexOfEnd;
+            string[] dataLine = data.Split('\n');
+            string currentLine;
+            string tempData = "";
+            _neuralLayers = new List<NeuralLayer>();
+
+            if (dataLine[0].Contains('{'))
+                countOfbracket++;
+            while (countOfbracket > 0)
+            {
+                currentLine = dataLine[indexOfReadLine];
+                indexOfReadLine++;
+                if (currentLine.Contains('{'))
+                    countOfbracket++;
+                else if(currentLine.Contains('}'))
+                    countOfbracket--;
+                else
+                {
+                    if (currentLine.Contains("LossFunction"))
+                    {
+                        indexOfStart = currentLine.IndexOf(":") + 2;
+                        indexOfEnd = currentLine.IndexOf(",") - 2;
+                        _lossFunction = ObjectGeneratorByName.GetLossFunction(currentLine.Substring(indexOfStart, indexOfEnd - indexOfStart + 1));
+                        continue;
+                    }
+                    else if (currentLine.Contains("Layers"))
+                        continue;
+                    else if (countOfbracket == 1)
+                        continue;
+                }
+                tempData += currentLine + "\n";
+                if (countOfbracket == 1)
+                {
+                    _neuralLayers.Add(new NeuralLayer(tempData));
+                    tempData = "";
+                }
+            }
         }
 
         /// <summary>
@@ -134,7 +176,6 @@ namespace NeuralNetwork
         /// <param name="optimizer"></param>
         public void SetOptimizer(IOptimizer optimizer)
         {
-            _optimizer = optimizer.Copy();
             foreach (NeuralLayer layer in _neuralLayers)
             {
                 layer.SetOptimizer(optimizer);
@@ -185,13 +226,37 @@ namespace NeuralNetwork
         {
             NeuralNetwork outputNetwork = new NeuralNetwork(_inputs, _realResult);
             outputNetwork._lossFunction = _lossFunction.Copy();
-            outputNetwork._optimizer = _optimizer.Copy();
             foreach (NeuralLayer layer in _neuralLayers)
             {
                 outputNetwork.AddNeuralLayer(layer.Copy());
             }
             outputNetwork.SetLossFunction(_lossFunction);
             return outputNetwork;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.AppendLine("{");
+            result.AppendLine($"\"LossFunction\":\"{_lossFunction.GetName()}\",");
+            result.AppendLine("\"Layers\":");
+            result.AppendLine("[");
+
+            int numberOfLayers = _neuralLayers.Count;
+            if(numberOfLayers>0)
+            {
+                result.Append(_neuralLayers[0].ToString());
+                for (int i = 1; i < numberOfLayers; i++)
+                {
+                    result.AppendLine(",");
+                    result.Append(_neuralLayers[i].ToString());
+                }
+                result.AppendLine();
+            }
+
+            result.AppendLine("]");
+            result.Append("}");
+            return result.ToString();
         }
     }
 }

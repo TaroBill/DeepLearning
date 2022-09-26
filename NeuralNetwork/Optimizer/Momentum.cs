@@ -34,5 +34,10 @@ namespace NeuralNetwork.Optimizer
             _lastVector = vectorNow;
             return 0 - vectorNow;
         }
+
+        public string GetName()
+        {
+            return $"Momentum({_resistance})";
+        }
     }
 }

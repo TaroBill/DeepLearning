@@ -27,6 +27,92 @@ namespace NeuralNetwork
             InitializeNodes(nodesAmount);
         }
 
+        public NeuralLayer(string data)
+        {
+            int countOfbracket = 0;
+            int indexOfReadLine = 1;
+            int indexOfStart;
+            int indexOfEnd;
+            string NameOfReadingData = "";
+            string[] dataLine = data.Split('\n');
+            string currentLine;
+            string tempData = "";
+            _nodes = new List<NeuralNode>();
+
+            if (dataLine[0].Contains('{'))
+                countOfbracket++;
+            while (countOfbracket > 0)
+            {
+                currentLine = dataLine[indexOfReadLine];
+                indexOfReadLine++;
+                if (currentLine.Contains('{'))
+                {
+                    countOfbracket++;
+                    if (NameOfReadingData == "Bias")
+                        continue;
+                }
+                else if (currentLine.Contains('}'))
+                {
+                    countOfbracket--;
+                    if (NameOfReadingData == "Bias")
+                    {
+                        NameOfReadingData = "";
+                        continue;
+                    }
+                }
+                else if (countOfbracket == 1)
+                {
+                    if (currentLine.Contains("Optimizer"))
+                    {
+                        indexOfStart = currentLine.IndexOf(":") + 2;
+                        indexOfEnd = currentLine.LastIndexOf(",") - 2;
+                        _optimizer = ObjectGeneratorByName.GetOptimizer(currentLine.Substring(indexOfStart, indexOfEnd - indexOfStart + 1));
+                    }
+                    else if (currentLine.Contains("Activation"))
+                    {
+                        indexOfStart = currentLine.IndexOf(":") + 2;
+                        indexOfEnd = currentLine.LastIndexOf(",") - 2;
+                        _activation = ObjectGeneratorByName.GetActivation(currentLine.Substring(indexOfStart, indexOfEnd - indexOfStart + 1));
+                    }
+                    else if (currentLine.Contains("LearningRate"))
+                    {
+                        indexOfStart = currentLine.IndexOf(":") + 1;
+                        indexOfEnd = currentLine.LastIndexOf(",") - 1;
+                        _learningRate = Convert.ToDouble(currentLine.Substring(indexOfStart, indexOfEnd - indexOfStart + 1));
+                    }
+                    else if (currentLine.Contains("Bias"))
+                        NameOfReadingData = "Bias";
+                    else if (currentLine.Contains("Nodes")) ;
+
+                    continue;
+                }
+                else if (NameOfReadingData == "Bias")
+                {
+                    if (currentLine.Contains("Value"))
+                    {
+                        indexOfStart = currentLine.IndexOf(":") + 1;
+                        indexOfEnd = currentLine.LastIndexOf(",") - 1;
+                        _bias = Convert.ToDouble(currentLine.Substring(indexOfStart, indexOfEnd - indexOfStart + 1));
+                    }
+                    else if (currentLine.Contains("Weight")) ;
+                    else
+                    {
+                        string trimString = currentLine.Trim('[', ']', '\r');
+                        if (trimString == "")
+                            continue;
+                        _biasWeight = trimString.Split(',').Select(x => Convert.ToDouble(x)).ToList();
+                    }
+                    continue;
+                }
+                tempData += currentLine + "\n";
+                if (countOfbracket == 1)
+                {
+                    _nodes.Add(new NeuralNode(tempData));
+                    tempData = "";
+                }
+            }
+        }
+
         /// <summary>
         /// 初始化節點數
         /// </summary>
@@ -236,6 +322,50 @@ namespace NeuralNetwork
             }
             outputLayer.InitBiasWeight(_biasWeight);
             return outputLayer;
+        }
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.AppendLine("{");
+            result.AppendLine($"\"Optimizer\":\"{_optimizer.GetName()}\",");
+            result.AppendLine($"\"Activation\":\"{_activation.GetName()}\",");
+            result.AppendLine($"\"LearningRate\":{_learningRate},");
+
+            result.AppendLine($"\"Bias\":");
+            result.AppendLine("{");
+            result.AppendLine($"\"Value\":{_bias},");
+            result.AppendLine($"\"Weight\":");
+            result.Append("[");
+
+            int numberOfBiasWeight = _biasWeight.Count;
+            if (numberOfBiasWeight > 0)
+            {
+                result.Append(_biasWeight[0].ToString());
+                for (int i = 1; i < numberOfBiasWeight; i++)
+                {
+                    result.Append(",");
+                    result.Append(_biasWeight[i].ToString());
+                }
+            }
+            result.AppendLine("]");
+            result.AppendLine("},");
+
+            result.AppendLine($"\"Nodes\":");
+            result.AppendLine("[");
+            int numberOfNodes = _nodes.Count;
+            if (numberOfNodes > 0)
+            {
+                result.Append(_nodes[0].ToString());
+                for (int i = 1; i < numberOfNodes; i++)
+                {
+                    result.AppendLine(",");
+                    result.Append(_nodes[i].ToString());
+                }
+                result.AppendLine();
+            }
+            result.AppendLine("]");
+            result.Append("}");
+            return result.ToString();
         }
     }
 }

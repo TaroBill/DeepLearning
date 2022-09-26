@@ -28,5 +28,10 @@ namespace NeuralNetwork.LossFunction
         {
             return new SquaredError();
         }
+
+        public string GetName()
+        {
+            return "SquaredError";
+        }
     }
 }

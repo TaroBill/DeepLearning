@@ -26,6 +26,52 @@ namespace NeuralNetwork
             _optimizer = optimizer.Copy();
         }
 
+        public NeuralNode(string data)
+        {
+            int countOfbracket = 0;
+            int indexOfReadLine = 1;
+            int indexOfStart;
+            int indexOfEnd;
+            string[] dataLine = data.Split('\n');
+            string currentLine;
+
+            if (dataLine[0].Contains('{'))
+                countOfbracket++;
+            while (countOfbracket > 0)
+            {
+                currentLine = dataLine[indexOfReadLine];
+                indexOfReadLine++;
+                if (currentLine.Contains('{'))
+                    countOfbracket++;
+                else if (currentLine.Contains('}'))
+                    countOfbracket--;
+                else
+                {
+                    if (currentLine.Contains("Optimizer"))
+                    {
+                        indexOfStart = currentLine.IndexOf(":") + 2;
+                        indexOfEnd = currentLine.LastIndexOf(",") - 2;
+                        _optimizer = ObjectGeneratorByName.GetOptimizer(currentLine.Substring(indexOfStart, indexOfEnd - indexOfStart + 1));
+                    }
+                    else if (currentLine.Contains("Activation"))
+                    {
+                        indexOfStart = currentLine.IndexOf(":") + 2;
+                        indexOfEnd = currentLine.LastIndexOf(",") - 2;
+                        _activationFunction = ObjectGeneratorByName.GetActivation(currentLine.Substring(indexOfStart, indexOfEnd - indexOfStart + 1));
+                    }
+                    else if (currentLine.Contains("Weight"))
+                        continue;
+                    else
+                    {
+                        string trimString = currentLine.Trim('[', ']', '\r');
+                        if (trimString == "")
+                            continue;
+                        _outputWeight = trimString.Split(',').Select(x => Convert.ToDouble(x)).ToList();
+                    }
+                }
+            }
+        }
+
         //設定輸出有多少Node
         public void SetWeightsAmount(int amount)
         {
@@ -138,6 +184,30 @@ namespace NeuralNetwork
             {
                 _outputWeight = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.AppendLine("{");
+            result.AppendLine($"\"Optimizer\":\"{_optimizer.GetName()}\",");
+            result.AppendLine($"\"Activation\":\"{_activationFunction.GetName()}\",");
+            result.AppendLine("\"Weight\":");
+            result.Append("[");
+
+            int numberOfWeight = _outputWeight.Count;
+            if (numberOfWeight > 0)
+            {
+                result.Append(_outputWeight[0].ToString());
+                for (int i = 1; i < numberOfWeight; i++)
+                {
+                    result.Append(",");
+                    result.Append(_outputWeight[i].ToString());
+                }
+            }
+            result.AppendLine("]");
+            result.Append("}");
+            return result.ToString();
         }
     }
 }

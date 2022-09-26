@@ -34,7 +34,12 @@ namespace NeuralNetwork.Optimizer
         {
             nowIndex++;
             _lastGradients += gradient * gradient;
-            return (learningRate / (Math.Sqrt((1.0 / (nowIndex + _epsilon)) * _lastGradients) + _epsilon)) * gradient;
+            return (learningRate * (Math.Sqrt((1.0 / (nowIndex + _epsilon)) * _lastGradients) + _epsilon)) * gradient;
+        }
+
+        public string GetName()
+        {
+            return $"AdaGrad({_epsilon})";
         }
     }
 }

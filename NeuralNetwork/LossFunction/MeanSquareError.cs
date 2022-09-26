@@ -33,5 +33,10 @@ namespace NeuralNetwork.LossFunction
             mean._totalOutput = _totalOutput;
             return mean;
         }
+
+        public string GetName()
+        {
+            return "MeanSquareError";
+        }
     }
 }

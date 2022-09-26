@@ -35,5 +35,10 @@ namespace NeuralNetwork.Optimizer
             _lastSigma = sigma;
             return (learningRate / (sigma + _epsilon)) * gradient;
         }
+
+        public string GetName()
+        {
+            return $"RMSprop({_alpha},{_epsilon})";
+        }
     }
 }

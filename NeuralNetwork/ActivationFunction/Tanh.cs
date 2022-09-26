@@ -31,5 +31,10 @@ namespace NeuralNetwork.ActivationFunction
         {
             return new Tanh();
         }
+
+        public string GetName()
+        {
+            return "Tanh";
+        }
     }
 }

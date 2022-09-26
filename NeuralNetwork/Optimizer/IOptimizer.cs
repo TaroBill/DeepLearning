@@ -21,5 +21,7 @@ namespace NeuralNetwork.Optimizer
         /// </summary>
         /// <returns></returns>
         IOptimizer Copy();
+
+        string GetName();
     }
 }

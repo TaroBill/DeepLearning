@@ -35,5 +35,7 @@ namespace NeuralNetwork.ActivationFunction
         /// </summary>
         /// <returns></returns>
         IActivation Copy();
+
+        string GetName();
     }
 }

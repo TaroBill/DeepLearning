@@ -29,5 +29,10 @@ namespace NeuralNetwork.LossFunction
         {
             return new CrossEntropy();
         }
+
+        public string GetName()
+        {
+            return "CrossEntropy";
+        }
     }
 }

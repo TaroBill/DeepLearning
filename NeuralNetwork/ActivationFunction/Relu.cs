@@ -31,5 +31,10 @@ namespace NeuralNetwork.ActivationFunction
         {
             return new Relu();
         }
+
+        public string GetName()
+        {
+            return "Relu";
+        }
     }
 }

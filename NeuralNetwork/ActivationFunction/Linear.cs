@@ -31,5 +31,10 @@ namespace NeuralNetwork.ActivationFunction
         {
             return new Linear();
         }
+
+        public string GetName()
+        {
+            return "Linear";
+        }
     }
 }

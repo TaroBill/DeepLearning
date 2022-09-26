@@ -142,15 +142,16 @@ namespace NeuralNetwork
             xorRealResult.Add(new List<double>() { 1, 0 });*/
             //_realResults = xorRealResult;
 
-            _neuralNetwork = new NeuralNetwork(_inputs, _realResults);
+            var _test = new NeuralNetwork(_inputs, _realResults);
 
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.01, 1, new LeakyRelu()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(20, 0.01, 1, new LeakyRelu()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(20, 0.01, 1, new LeakyRelu()));
-            _neuralNetwork.AddNeuralLayer(new NeuralLayer(1, 0.01, 1, new Tanh()));
-            _neuralNetwork.SetLossFunction(new MeanSquareError());
-            _neuralNetwork.SetOptimizer(new Momentum(0.9));
-
+            _test.AddNeuralLayer(new NeuralLayer(2, 0.01, 1, new LeakyRelu()));
+            _test.AddNeuralLayer(new NeuralLayer(20, 0.01, 1, new LeakyRelu()));
+            _test.AddNeuralLayer(new NeuralLayer(20, 0.01, 1, new LeakyRelu()));
+            _test.AddNeuralLayer(new NeuralLayer(1, 0.01, 1, new Tanh()));
+            _test.SetLossFunction(new MeanSquareError());
+            _test.SetOptimizer(new Momentum(0.9));
+            _test.StartTrain(10000);
+            _neuralNetwork = new NeuralNetwork(_test.ToString());
             /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.46));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(5, 0.1, 0.35));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.18));*/
