@@ -18,6 +18,7 @@ namespace NetworkTool
         private const double EPSILON = 0.0001;
         private Matrix<double> _tempAverage;
         private Matrix<double> _tempVariance;
+        private const double LEARNING_RATE = 0.01;
 
         public NormalizationGate()
         {
@@ -55,8 +56,8 @@ namespace NetworkTool
             int numberOfNodes = _inputs.ColumnCount;
             for (int i = 0; i < numberOfNodes; i++)
             {
-                _scale[0, i] = random.NextDouble() + 0.5;
-                _bias[0, i] = random.NextDouble() * 2 - 1;
+                _scale[0, i] = random.NextDouble() * 0.4 + 0.8;
+                _bias[0, i] = (random.NextDouble() - 0.5) * 0.01;
             }
         }
 
@@ -162,8 +163,8 @@ namespace NetworkTool
             Matrix<double> outErrors = numberOfData * deltaOutputs - CloneRow(SumOfRows(deltaOutputs), numberOfData) - _convertedInput.Joint(CloneRow(SumOfRows(deltaOutputs.Joint(_convertedInput, (x, y) => x * y)), numberOfData), (x, y) => x * y);
             outErrors = outErrors.Joint(CloneRow(_tempVariance, numberOfData), (x, y) => x / (numberOfData * Math.Sqrt(y + EPSILON)));
 
-            _scale -= deltaScale;
-            _bias -= deltaBias;
+            _scale -= LEARNING_RATE * deltaScale;
+            _bias -= LEARNING_RATE * deltaBias;
             return outErrors;
         }
 
@@ -185,6 +186,15 @@ namespace NetworkTool
             return result.ToString();
         }
 
+        public Matrix<double> GetOutputMatrix()
+        {
+            return new Matrix<double>(_outputs);
+        }
+
+        public Matrix<double> GetWeightMatrix()
+        {
+            return new Matrix<double>(0, 0);
+        }
     }
 
 }

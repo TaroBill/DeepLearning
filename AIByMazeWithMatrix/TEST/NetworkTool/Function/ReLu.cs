@@ -15,7 +15,7 @@ namespace NetworkTool.Function
 
         public double PartDerivativeActivation(double value)
         {
-            return 1;
+            return value == 0 ? 0 : 1;
         }
 
         public string GetName()

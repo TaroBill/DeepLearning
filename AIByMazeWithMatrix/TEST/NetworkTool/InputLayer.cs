@@ -4,19 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NetworkTool.Function;
 
 namespace NetworkTool
 {
     public class InputLayer : Layer
     {
-        private double bias = 0.1;
+        private readonly IFunction DEFAULT_FUNCTION = new Function.Nope();
 
         //public InputLayer(int numberOfNodes) : base(numberOfNodes + 1, 0) { }
-        public InputLayer(int numberOfNodes) : base(numberOfNodes, 0) { }
+        public InputLayer(int numberOfNodes) : base(numberOfNodes, 0)
+        {
+            _funtion = DEFAULT_FUNCTION;
+        }
 
         public InputLayer(string data) : base(data)
         {
-
+            _funtion = DEFAULT_FUNCTION;
         }
 
         public override void RandomlyInitializeWeights(int seed) { }
@@ -41,10 +45,10 @@ namespace NetworkTool
         }//*/
 
         public override Matrix<double> InputData(Matrix<double> data)
-        {
+        { 
             int numberOfData = data.RowCount;
 
-            _outputs = new Matrix<double>(data);// * GenerateCopyMatrix(data.ColumnCount);
+            _outputs = data;// * GenerateCopyMatrix(data.ColumnCount);
             //SetBias();
 
             return new Matrix<double>(_outputs);

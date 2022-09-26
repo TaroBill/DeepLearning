@@ -16,12 +16,16 @@ namespace NetworkTool
         protected Matrix<double> _outputs;
         protected IFunction _funtion;
 
+        protected double _bias = 0.1;
+        protected Matrix<double> _biasWeight;
+
         public Layer()
         {
             _funtion = new Function.Nope();
             _inputs = new Matrix<double>(0, 0);
             _weights = new Matrix<double>(0, 0);
             _outputs = new Matrix<double>(0, 0);
+            _biasWeight = new Matrix<double>(1, 0);
         }
 
         public Layer(int numberOfNodes, int numberOfWeightsPerNode) : this()
@@ -29,6 +33,7 @@ namespace NetworkTool
             _inputs = new Matrix<double>(1, numberOfWeightsPerNode);
             _weights = new Matrix<double>(numberOfNodes, numberOfWeightsPerNode);
             _outputs = new Matrix<double>(1, numberOfNodes);
+            _biasWeight = new Matrix<double>(1, numberOfNodes);
         }
 
         public Layer(string data) : this()
@@ -73,6 +78,7 @@ namespace NetworkTool
 
             for (int i = 0; i < rowCount; i++)
             {
+                _biasWeight[0, i] = random.NextDouble();
                 for (int j = 0; j < columnCount; j++)
                 {
                     _weights[i, j] = random.NextDouble();
@@ -102,11 +108,22 @@ namespace NetworkTool
         public virtual Matrix<double> InputData(Matrix<double> data)
         {
             _inputs = new Matrix<double>(data);
-            Matrix<double> sum = _inputs * _weights.Transposition();
+            Matrix<double> sum = _inputs * _weights.Transposition() + GetBiasMatrix(data.RowCount);
 
             _outputs = sum.ConvertTo<double>(_funtion.Activation);
 
             return new Matrix<double>(_outputs);
+        }
+
+        private Matrix<double> GetBiasMatrix(int numberOfData)
+        {
+            Matrix<double> result = new Matrix<double>(numberOfData, 1);
+            for (int i = 0; i < numberOfData; i++)
+            {
+                result[i, 0] = 1;
+            }
+            result *= _bias * _biasWeight;
+            return result;
         }
 
         public virtual Matrix<double> InputError(Matrix<double> errors)
@@ -119,6 +136,13 @@ namespace NetworkTool
             
             Matrix<double> outErrors = delta * _weights;
             _weights -= LEARNING_RATE * (delta.Transposition() * _inputs);
+
+            Matrix<double> getSumMatrix = new Matrix<double>(1, delta.RowCount);//用來求Column的總和
+            for (int i = 0; i < delta.RowCount; i++)
+            {
+                getSumMatrix[0, i] = 1;
+            }
+            _biasWeight -= LEARNING_RATE * (getSumMatrix * delta * _bias);
 
             return outErrors;
         }

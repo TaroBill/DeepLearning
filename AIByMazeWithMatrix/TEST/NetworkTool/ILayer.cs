@@ -19,6 +19,9 @@ namespace NetworkTool
 
         int GetNumberOfNode();
 
+        Matrix<double> GetOutputMatrix();
+
+        Matrix<double> GetWeightMatrix();
 
     }
 

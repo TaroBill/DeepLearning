@@ -22,13 +22,15 @@ namespace NetworkTool
             _output = new OutputLayer(numberOfOutput, numberOfHiddenNode.Last());
             _errors = new Matrix<double>(1, numberOfOutput);
 
+            //_network.Add(new NormalizationGate(numberOfInput));
             _network.Add(_input);
-            _network.Add(new NormalizationGate(numberOfInput));
             for (int i = 0; i < numberOfHiddenLayer; i++)
             {
+                //_network.Add(new NormalizationGate(_network[i * 2].GetNumberOfNode()));
+                //_network.Add(new NormalizationGate(numberOfHiddenNode[i]));
                 _network.Add(new HiddenLayer(numberOfHiddenNode[i], _network[i].GetNumberOfNode()));
-                _network.Add(new NormalizationGate(numberOfHiddenNode[i]));
             }
+            //_network.Add(new NormalizationGate(_network[numberOfHiddenLayer * 2].GetNumberOfNode()));
             _network.Add(_output);//*/
         }
 
@@ -102,7 +104,7 @@ namespace NetworkTool
         public List<Matrix<double>> GetAllNodeValue()
         {
             List<Matrix<double>> values = new List<Matrix<double>>();
-            /*foreach (ILayer layer in _network)
+            foreach (ILayer layer in _network)
             {
                 values.Add(layer.GetOutputMatrix());
             }//*/
@@ -112,7 +114,7 @@ namespace NetworkTool
         public List<Matrix<double>> GetAllNodeWeight()
         {
             List<Matrix<double>> weights = new List<Matrix<double>>();
-            /*foreach (ILayer layer in _network)
+            foreach (ILayer layer in _network)
             {
                 weights.Add(layer.GetWeightMatrix());
             }//*/
@@ -139,6 +141,11 @@ namespace NetworkTool
         {
             //輸入Error
             _errors = error;
+            /*Matrix<double> ones = new Matrix<double>(1, error.RowCount);
+            for (int i = 0; i < error.RowCount; i++)
+            {
+                ones[0, i] = 1;
+            }//*/
             Matrix<double> tempError = error;
             //傳播各節點的誤差
             int numberOfLayer = _network.Count();

@@ -4,20 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NetworkTool.Function;
 
 namespace NetworkTool
 {
     public class OutputLayer : Layer
     {
+        private readonly IFunction DEFAULT_FUNCTION = new Function.Logistic();
 
         public OutputLayer(int numberOfNodes, int numberOfWeightsPerNode) : base(numberOfNodes, numberOfWeightsPerNode)
         {
-            _funtion = new Function.Logistic();
+            _funtion = DEFAULT_FUNCTION;
         }
 
         public OutputLayer(string data) : base(data)
         {
-            _funtion = new Function.Logistic();
+            _funtion = DEFAULT_FUNCTION;
         }
 
         public override void RandomlyInitializeWeights(int seed)
