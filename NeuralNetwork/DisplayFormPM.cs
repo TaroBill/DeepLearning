@@ -105,10 +105,10 @@ namespace NeuralNetwork
             _inputs = xorInputs;
 
             List<List<double>> xorRealResult = new List<List<double>>();
-            xorRealResult.Add(new List<double>() { 0 });
-            xorRealResult.Add(new List<double>() { 1 });
-            xorRealResult.Add(new List<double>() { 1 });
-            xorRealResult.Add(new List<double>() { 0 });
+            xorRealResult.Add(new List<double>() { 1, 0 });
+            xorRealResult.Add(new List<double>() { 0, 1 });
+            xorRealResult.Add(new List<double>() { 0, 1 });
+            xorRealResult.Add(new List<double>() { 1, 0 });
             _realResults = xorRealResult;
             
             
@@ -147,11 +147,12 @@ namespace NeuralNetwork
             _test.AddNeuralLayer(new NeuralLayer(2, 0.01, 1, new LeakyRelu()));
             _test.AddNeuralLayer(new NeuralLayer(20, 0.01, 1, new LeakyRelu()));
             _test.AddNeuralLayer(new NeuralLayer(20, 0.01, 1, new LeakyRelu()));
-            _test.AddNeuralLayer(new NeuralLayer(1, 0.01, 1, new Tanh()));
-            _test.SetLossFunction(new MeanSquareError());
-            _test.SetOptimizer(new Momentum(0.9));
-            _test.StartTrain(10000);
+            _test.AddNeuralLayer(new NeuralLayer(2, 0.01, 1, new Softmax()));
+            _test.SetLossFunction(new CrossEntropy());
+            _test.SetOptimizer(new SGD());
+            //_test.StartTrain(10000);
             _neuralNetwork = new NeuralNetwork(_test.ToString());
+            _neuralNetwork.SetTrainData(_inputs, _realResults);
             /*_neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.46));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(5, 0.1, 0.35));
             _neuralNetwork.AddNeuralLayer(new NeuralLayer(2, 0.1, 0.18));*/

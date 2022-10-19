@@ -13,14 +13,14 @@ namespace NeuralNetwork.LossFunction
         {
             double result = 0;
             for (int index = 0; index < target.Count; index++)
-                result += (target[index] * Math.Log(output[index]));
+                result += (target[index] * Math.Log(output[index], 2));
             return 0 - result;
         }
 
         //損失函式對該輸出偏微分
         public double PartialDerivativeLossFunction(double target, double output)
         {
-            double result = (0 - target) / (output * Math.Log(2, Math.E));
+            double result = output - target;
             return result;
         }
 
